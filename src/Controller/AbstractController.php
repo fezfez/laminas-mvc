@@ -147,7 +147,7 @@ abstract class AbstractController implements
      */
     public function setEventManager(EventManagerInterface $events)
     {
-        $className = $this::class;
+        $className = static::class;
 
         $identifiers = [
             self::class,

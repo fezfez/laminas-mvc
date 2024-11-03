@@ -70,7 +70,7 @@ class ViewHelperManagerFactoryTest extends TestCase
     {
         $this->markTestSkipped(sprintf(
             '%s::%s skipped until laminas-view and the url() view helper are updated to use laminas-router',
-            $this::class,
+            static::class,
             __FUNCTION__
         ));
 
