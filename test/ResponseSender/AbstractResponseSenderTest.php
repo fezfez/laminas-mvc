@@ -26,7 +26,7 @@ class AbstractResponseSenderTest extends TestCase
         $response->getHeaders()->addHeaders($headers);
 
         $mockSendResponseEvent = $this->getMockBuilder(SendResponseEvent::class)
-            ->setMethods(['getResponse'])
+            ->onlyMethods(['getResponse'])
             ->getMock();
 
         $mockSendResponseEvent->expects(
@@ -76,7 +76,7 @@ class AbstractResponseSenderTest extends TestCase
             ->will($this->returnValue('X-Test: HTTP/1.1 202 Accepted'));
 
         $mockSendResponseEvent = $this->getMockBuilder(SendResponseEvent::class)
-            ->setMethods(['getResponse'])
+            ->onlyMethods(['getResponse'])
             ->getMock();
         $mockSendResponseEvent->expects($this->any())->method('getResponse')->will($this->returnValue($mockResponse));
 

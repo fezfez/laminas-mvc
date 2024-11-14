@@ -41,7 +41,7 @@
     "require-dev": {
         "laminas/laminas-coding-standard": "^2.5.0",
         "laminas/laminas-json": "^3.6",
-        "phpunit/phpunit": "^9.6.13",
+        "phpunit/phpunit": "^10.5.38",
         "webmozart/assert": "^1.11"
     },
     "suggest": {

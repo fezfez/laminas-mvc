@@ -417,7 +417,7 @@ class RestfulControllerTest extends TestCase
         $this->assertEquals(['entity' => ['foo' => 'bar']], $result);
     }
 
-    public function matchingContentTypes()
+    public static function matchingContentTypes()
     {
         return [
             'exact-first' => ['application/hal+json'],
@@ -439,7 +439,7 @@ class RestfulControllerTest extends TestCase
         ));
     }
 
-    public function nonMatchingContentTypes()
+    public static function nonMatchingContentTypes()
     {
         return [
             'specific-type' => ['application/xml'],
@@ -529,7 +529,7 @@ class RestfulControllerTest extends TestCase
         $this->assertEquals('Method Not Allowed', $this->response->getReasonPhrase());
     }
 
-    public function providerNotImplementedMethodSets504HttpCodeProvider()
+    public static function providerNotImplementedMethodSets504HttpCodeProvider()
     {
         return [
             ['DELETE',  [],                             ['id' => 1]], // AbstractRestfulController::delete()

@@ -8,7 +8,7 @@ use Laminas\Stdlib\ResponseInterface as Response;
 
 class UneventfulController implements DispatchableInterface
 {
-    public function dispatch(RequestInterface $request, Response $response = null)
+    public function dispatch(RequestInterface $request, ?Response $response = null)
     {
     }
 }

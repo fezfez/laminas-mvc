@@ -36,7 +36,7 @@ class CreateViewModelListenerTest extends TestCase
         $this->assertEquals($array, $test->getVariables());
     }
 
-    public function nonAssocArrayResults()
+    public static function nonAssocArrayResults()
     {
         return [
             [null],

@@ -27,25 +27,33 @@ class SendResponseListenerFactoryTest extends TestCase
             ->method('setIdentifiers')
             ->with([SendResponseListener::class, SendResponseListener::class]);
 
-        $events->expects($this->exactly(3))
+        $invokedCount = $this->exactly(3);
+        $events->expects($invokedCount)
             ->method('attach')
-            ->withConsecutive(
-                [
-                    SendResponseEvent::EVENT_SEND_RESPONSE,
-                    $this->isInstanceOf(PhpEnvironmentResponseSender::class),
-                    -1000,
-                ],
-                [
-                    SendResponseEvent::EVENT_SEND_RESPONSE,
-                    $this->isInstanceOf(SimpleStreamResponseSender::class),
-                    -3000,
-                ],
-                [
-                    SendResponseEvent::EVENT_SEND_RESPONSE,
-                    $this->isInstanceOf(HttpResponseSender::class),
-                    -4000,
-                ],
-            );
+            ->willReturnCallback(function ($eventName, callable $listener, $priority = 1) use ($invokedCount) {
+                if ($invokedCount->numberOfInvocations() === 1) {
+                    self::assertSame($eventName, SendResponseEvent::EVENT_SEND_RESPONSE);
+                    self::assertSame(-1000, $priority);
+                    self::assertInstanceOf(PhpEnvironmentResponseSender::class, $listener);
+                    return;
+                }
+
+                if ($invokedCount->numberOfInvocations() === 2) {
+                    self::assertSame($eventName, SendResponseEvent::EVENT_SEND_RESPONSE);
+                    self::assertSame(-3000, $priority);
+                    self::assertInstanceOf(SimpleStreamResponseSender::class, $listener);
+                    return;
+                }
+
+                if ($invokedCount->numberOfInvocations() === 3) {
+                    self::assertSame($eventName, SendResponseEvent::EVENT_SEND_RESPONSE);
+                    self::assertSame(-4000, $priority);
+                    self::assertInstanceOf(HttpResponseSender::class, $listener);
+                    return;
+                }
+
+                throw new \RuntimeException('Unexpected numberOfInvocations' . $invokedCount->numberOfInvocations());
+            });
 
         $container = $this->createMock(ContainerInterface::class);
         $container->method('get')->with('EventManager')->willReturn($events);

@@ -29,7 +29,7 @@ class LazyControllerAbstractFactoryTest extends TestCase
         $this->container = $this->createMock(ContainerInterface::class);
     }
 
-    public function nonClassRequestedNames()
+    public static function nonClassRequestedNames()
     {
         return [
             'non-class-string' => ['non-class-string'],

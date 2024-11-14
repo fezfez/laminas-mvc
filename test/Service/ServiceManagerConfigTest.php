@@ -99,7 +99,7 @@ class ServiceManagerConfigTest extends TestCase
         /*
          * Create delegator closure
          */
-        $delegator = static function ($container, $name, $callback, array $options = null) {
+        $delegator = static function ($container, $name, $callback, ?array $options = null) {
             $service = $callback();
             $service->bar = 'baz';
             return $service;
@@ -129,7 +129,7 @@ class ServiceManagerConfigTest extends TestCase
     {
         $instance       = $this->createMock(EventManagerAwareInterface::class);
         $initializer    = $this->getMockBuilder(stdClass::class)
-            ->setMethods(['__invoke'])
+            ->addMethods(['__invoke'])
             ->getMock();
         $config         = new ServiceManagerConfig([
             'initializers' => [

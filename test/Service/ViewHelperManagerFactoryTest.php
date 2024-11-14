@@ -29,7 +29,7 @@ class ViewHelperManagerFactoryTest extends TestCase
     /**
      * @return array
      */
-    public function emptyConfiguration()
+    public static function emptyConfiguration()
     {
         return [
             'no-config'                => [[]],
@@ -52,7 +52,7 @@ class ViewHelperManagerFactoryTest extends TestCase
         $this->assertInstanceof(Doctype::class, $doctype);
     }
 
-    public function urlHelperNames()
+    public static function urlHelperNames()
     {
         return [
             ['url'],
@@ -148,7 +148,7 @@ class ViewHelperManagerFactoryTest extends TestCase
         $this->assertEquals($expected, $helper());
     }
 
-    public function doctypeHelperNames()
+    public static function doctypeHelperNames()
     {
         return [
             ['doctype'],
