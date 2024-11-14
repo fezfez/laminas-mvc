@@ -28,7 +28,7 @@ abstract class AbstractResponseSender implements ResponseSenderInterface
         }
 
         $status = $response->renderStatusLine();
-        header($status);
+        header((string) $status);
 
         $event->setHeadersSent();
         return $this;
