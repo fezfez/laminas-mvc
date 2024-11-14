@@ -11,14 +11,12 @@ use Prophecy\PhpUnit\ProphecyTrait;
 
 class ViewJsonStrategyFactoryTest extends TestCase
 {
-    use ProphecyTrait;
-
     private function createContainer()
     {
-        $renderer  = $this->prophesize(JsonRenderer::class);
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->get('ViewJsonRenderer')->will(static fn(): object => $renderer->reveal());
-        return $container->reveal();
+        $renderer  = $this->createMock(JsonRenderer::class);
+        $container = $this->createMock(ContainerInterface::class);
+        $container->method('get')->with('ViewJsonRenderer')->willReturn($renderer);
+        return $container;
     }
 
     public function testReturnsJsonStrategy()

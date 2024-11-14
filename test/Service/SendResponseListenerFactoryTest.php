@@ -17,37 +17,42 @@ use Prophecy\PhpUnit\ProphecyTrait;
 
 class SendResponseListenerFactoryTest extends TestCase
 {
-    use ProphecyTrait;
-
     public function testFactoryReturnsListenerWithEventManagerFromContainer()
     {
-        $sharedEvents = $this->prophesize(SharedEventManagerInterface::class);
-        $events = $this->prophesize(EventManagerInterface::class);
-        $events->getSharedManager()->will([$sharedEvents, 'reveal']);
+        $sharedEvents = $this->createMock(SharedEventManagerInterface::class);
+        $events = $this->createMock(EventManagerInterface::class);
+        $events->method('getSharedManager')->willReturn($sharedEvents);
 
-        $events->setIdentifiers([SendResponseListener::class, SendResponseListener::class])->shouldBeCalled();
-        $events->attach(
-            SendResponseEvent::EVENT_SEND_RESPONSE,
-            Argument::type(PhpEnvironmentResponseSender::class),
-            -1000
-        )->shouldBeCalled();
-        $events->attach(
-            SendResponseEvent::EVENT_SEND_RESPONSE,
-            Argument::type(SimpleStreamResponseSender::class),
-            -3000
-        )->shouldBeCalled();
-        $events->attach(
-            SendResponseEvent::EVENT_SEND_RESPONSE,
-            Argument::type(HttpResponseSender::class),
-            -4000
-        )->shouldBeCalled();
+        $events->expects($this->once())
+            ->method('setIdentifiers')
+            ->with([SendResponseListener::class, SendResponseListener::class]);
 
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->get('EventManager')->will([$events, 'reveal']);
+        $events->expects($this->exactly(3))
+            ->method('attach')
+            ->withConsecutive(
+                [
+                    SendResponseEvent::EVENT_SEND_RESPONSE,
+                    $this->isInstanceOf(PhpEnvironmentResponseSender::class),
+                    -1000,
+                ],
+                [
+                    SendResponseEvent::EVENT_SEND_RESPONSE,
+                    $this->isInstanceOf(SimpleStreamResponseSender::class),
+                    -3000,
+                ],
+                [
+                    SendResponseEvent::EVENT_SEND_RESPONSE,
+                    $this->isInstanceOf(HttpResponseSender::class),
+                    -4000,
+                ],
+            );
+
+        $container = $this->createMock(ContainerInterface::class);
+        $container->method('get')->with('EventManager')->willReturn($events);
 
         $factory = new SendResponseListenerFactory();
-        $listener = $factory($container->reveal());
+        $listener = $factory($container);
         $this->assertInstanceOf(SendResponseListener::class, $listener);
-        $this->assertSame($events->reveal(), $listener->getEventManager());
+        $this->assertSame($events, $listener->getEventManager());
     }
 }

@@ -11,14 +11,10 @@ use Prophecy\PhpUnit\ProphecyTrait;
 
 class ViewPrefixPathStackResolverFactoryTest extends TestCase
 {
-    use ProphecyTrait;
-
     public function testCreateService()
     {
-        $serviceLocator = $this->prophesize(ServiceLocatorInterface::class);
-        $serviceLocator->willImplement(ContainerInterface::class);
-
-        $serviceLocator->get('config')->willReturn([
+        $serviceLocator = $this->createMock(ServiceLocatorInterface::class);
+        $serviceLocator->method('get')->willReturn([
             'view_manager' => [
                 'prefix_template_path_stack' => [
                     'album/' => [],
@@ -27,7 +23,7 @@ class ViewPrefixPathStackResolverFactoryTest extends TestCase
         ]);
 
         $factory  = new ViewPrefixPathStackResolverFactory();
-        $resolver = $factory($serviceLocator->reveal(), 'ViewPrefixPathStackResolver');
+        $resolver = $factory($serviceLocator, 'ViewPrefixPathStackResolver');
 
         $this->assertInstanceOf(PrefixPathStackResolver::class, $resolver);
     }

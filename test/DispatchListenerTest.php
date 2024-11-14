@@ -21,25 +21,23 @@ use Prophecy\PhpUnit\ProphecyTrait;
 
 class DispatchListenerTest extends TestCase
 {
-    use ProphecyTrait;
-
-    public function createMvcEvent($controllerMatched)
+    private function createMvcEvent($controllerMatched)
     {
         $response   = new Response();
-        $routeMatch = $this->prophesize(RouteMatch::class);
-        $routeMatch->getParam('controller', 'not-found')->willReturn('path');
+        $routeMatch = $this->createMock(RouteMatch::class);
+        $routeMatch->method('getParam')->with('controller', 'not-found')->willReturn('path');
 
         $eventManager = new EventManager();
 
-        $application = $this->prophesize(Application::class);
-        $application->getEventManager()->willReturn($eventManager);
-        $application->getResponse()->willReturn($response);
+        $application = $this->createMock(Application::class);
+        $application->method('getEventManager')->willReturn($eventManager);
+        $application->method('getResponse')->willReturn($response);
 
         $event = new MvcEvent();
         $event->setRequest(new Request());
         $event->setResponse($response);
-        $event->setApplication($application->reveal());
-        $event->setRouteMatch($routeMatch->reveal());
+        $event->setApplication($application);
+        $event->setRouteMatch($routeMatch);
 
         return $event;
     }

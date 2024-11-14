@@ -14,38 +14,29 @@ use Prophecy\PhpUnit\ProphecyTrait;
  */
 class HttpMethodListenerFactoryTest extends TestCase
 {
-    use ProphecyTrait;
-
-    /**
-     * @var ServiceLocatorInterface|MockObject
-     */
-    protected $serviceLocator;
-
-    public function setUp(): void
-    {
-        $this->serviceLocator = $this->prophesize(ServiceLocatorInterface::class);
-        $this->serviceLocator->willImplement(ContainerInterface::class);
-    }
-
     public function testCreateWithDefaults()
     {
+        $serviceLocator = $this->createMock(ServiceLocatorInterface::class);
         $factory = new HttpMethodListenerFactory();
-        $listener = $factory($this->serviceLocator->reveal(), 'HttpMethodListener');
+        $listener = $factory($serviceLocator, 'HttpMethodListener');
         $this->assertTrue($listener->isEnabled());
         $this->assertNotEmpty($listener->getAllowedMethods());
     }
 
     public function testCreateWithConfig()
     {
-        $config['http_methods_listener'] = [
-            'enabled' => false,
-            'allowed_methods' => ['FOO', 'BAR']
+        $config = [
+            'http_methods_listener' => [
+                'enabled' => false,
+                'allowed_methods' => ['FOO', 'BAR']
+            ]
         ];
 
-        $this->serviceLocator->get('config')->willReturn($config);
+        $serviceLocator = $this->createMock(ServiceLocatorInterface::class);
+        $serviceLocator->method('get')->with('config')->willReturn($config);
 
         $factory = new HttpMethodListenerFactory();
-        $listener = $factory($this->serviceLocator->reveal(), 'HttpMethodListener');
+        $listener = $factory($serviceLocator, 'HttpMethodListener');
 
         $listenerConfig = $config['http_methods_listener'];
 
