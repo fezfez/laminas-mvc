@@ -10,12 +10,8 @@ class RestfulContentTypeTestController extends AbstractRestfulController
 {
     /**
      * Update an existing resource
-     *
-     * @param  mixed $id
-     * @param  mixed $data
-     * @return array
      */
-    public function update($id, $data)
+    public function update(mixed $id, mixed $data): array
     {
         return [
             'id'   => $id,

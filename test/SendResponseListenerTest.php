@@ -14,7 +14,7 @@ use function array_values;
 
 class SendResponseListenerTest extends TestCase
 {
-    public function testEventManagerIdentifiers()
+    public function testEventManagerIdentifiers(): void
     {
         $listener    = new SendResponseListener();
         $identifiers = $listener->getEventManager()->getIdentifiers();
@@ -22,7 +22,7 @@ class SendResponseListenerTest extends TestCase
         $this->assertEquals($expected, array_values($identifiers));
     }
 
-    public function testSendResponseTriggersSendResponseEvent()
+    public function testSendResponseTriggersSendResponseEvent(): void
     {
         $listener = new SendResponseListener();
         $result   = [];

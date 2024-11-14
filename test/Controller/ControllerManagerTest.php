@@ -43,11 +43,7 @@ class ControllerManagerTest extends TestCase
         $this->controllers = new ControllerManager($this->services);
     }
 
-    /**
-     * @param SharedEventManager
-     * @return EventManager
-     */
-    protected function createEventManager(SharedEventManagerInterface $sharedManager)
+    protected function createEventManager(SharedEventManagerInterface $sharedManager): EventManager
     {
         return new EventManager($sharedManager);
     }

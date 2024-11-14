@@ -18,15 +18,14 @@ use PHPUnit\Framework\TestCase;
  */
 class HttpMethodListenerTest extends TestCase
 {
-    /** @var HttpMethodListener */
-    protected $listener;
+    protected HttpMethodListener $listener;
 
     public function setUp(): void
     {
         $this->listener = new HttpMethodListener();
     }
 
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $methods  = ['foo', 'bar'];
         $listener = new HttpMethodListener(false, $methods);
@@ -38,7 +37,7 @@ class HttpMethodListenerTest extends TestCase
         $this->assertNotEmpty($listener->getAllowedMethods());
     }
 
-    public function testAttachesToRouteEvent()
+    public function testAttachesToRouteEvent(): void
     {
         $eventManager = $this->createMock(EventManagerInterface::class);
         $eventManager->expects($this->atLeastOnce())
@@ -48,7 +47,7 @@ class HttpMethodListenerTest extends TestCase
         $this->listener->attach($eventManager);
     }
 
-    public function testDoesntAttachIfDisabled()
+    public function testDoesntAttachIfDisabled(): void
     {
         $this->listener->setEnabled(false);
 
@@ -59,7 +58,7 @@ class HttpMethodListenerTest extends TestCase
         $this->listener->attach($eventManager);
     }
 
-    public function testOnRouteDoesNothingIfNotHttpEnvironment()
+    public function testOnRouteDoesNothingIfNotHttpEnvironment(): void
     {
         $event = new MvcEvent();
         $event->setRequest(new Request());
@@ -72,7 +71,7 @@ class HttpMethodListenerTest extends TestCase
         $this->assertNull($this->listener->onRoute($event));
     }
 
-    public function testOnRouteDoesNothingIfIfMethodIsAllowed()
+    public function testOnRouteDoesNothingIfIfMethodIsAllowed(): void
     {
         $event   = new MvcEvent();
         $request = new HttpRequest();
@@ -85,7 +84,7 @@ class HttpMethodListenerTest extends TestCase
         $this->assertNull($this->listener->onRoute($event));
     }
 
-    public function testOnRouteReturns405ResponseIfMethodNotAllowed()
+    public function testOnRouteReturns405ResponseIfMethodNotAllowed(): void
     {
         $event   = new MvcEvent();
         $request = new HttpRequest();

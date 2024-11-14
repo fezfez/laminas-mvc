@@ -48,11 +48,8 @@ class ApplicationTest extends TestCase
 {
     use EventListenerIntrospectionTrait;
 
-    /** @var ServiceManager */
-    protected $serviceManager;
-
-    /** @var Application */
-    protected $application;
+    protected ServiceManager $serviceManager;
+    protected Application $application;
 
     public function setUp(): void
     {

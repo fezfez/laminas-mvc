@@ -9,7 +9,8 @@ use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class SamplePluginFactory implements FactoryInterface
 {
-    public function __invoke(containerinterface $container, $name, ?array $options = null)
+    /** @inheritDoc */
+    public function __invoke(containerinterface $container, $requestedName, ?array $options = null)
     {
         return new SamplePlugin();
     }

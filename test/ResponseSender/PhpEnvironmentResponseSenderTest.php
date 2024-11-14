@@ -46,7 +46,7 @@ class PhpEnvironmentResponseSenderTest extends TestCase
         $this->assertEquals('', $body);
     }
 
-    protected function getSendResponseEventMock()
+    protected function getSendResponseEventMock(): SendResponseEvent
     {
         $returnValue           = false;
         $mockSendResponseEvent = $this->getMockBuilder(SendResponseEvent::class)

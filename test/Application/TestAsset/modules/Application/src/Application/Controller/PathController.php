@@ -11,6 +11,7 @@ use Laminas\Stdlib\ResponseInterface as Response;
 
 class PathController implements DispatchableInterface
 {
+    /** @inheritDoc */
     public function dispatch(Request $request, ?Response $response = null)
     {
         if (! $response) {

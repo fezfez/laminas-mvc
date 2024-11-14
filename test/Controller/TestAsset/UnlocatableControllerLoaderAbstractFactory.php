@@ -9,12 +9,14 @@ use Laminas\ServiceManager\Factory\AbstractFactoryInterface;
 
 class UnlocatableControllerLoaderAbstractFactory implements AbstractFactoryInterface
 {
-    public function canCreate(containerinterface $container, $name)
+    /** @inheritDoc */
+    public function canCreate(containerinterface $container, $requestedName)
     {
         return false;
     }
 
-    public function __invoke(containerinterface $container, $name, ?array $options = null)
+    /** @inheritDoc */
+    public function __invoke(containerinterface $container, $requestedName, ?array $options = null)
     {
     }
 }

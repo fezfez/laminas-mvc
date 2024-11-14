@@ -19,18 +19,21 @@ use function sprintf;
  */
 class DumbStrategy implements Renderer
 {
-    protected $resolver;
+    protected Resolver|null $resolver = null;
 
+    /** @inheritDoc */
     public function getEngine()
     {
         return $this;
     }
 
+    /** @inheritDoc */
     public function setResolver(Resolver $resolver)
     {
         $this->resolver = $resolver;
     }
 
+    /** @inheritDoc */
     public function render($nameOrModel, $values = null)
     {
         $options = [];

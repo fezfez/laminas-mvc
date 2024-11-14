@@ -32,14 +32,10 @@ use stdClass;
 class ForwardTest extends TestCase
 {
     private readonly PluginManager $plugins;
-
-    /** @var ControllerManager */
-    private $controllers;
+    private ControllerManager $controllers;
 
     private SampleController $controller;
-
-    /** @var Forward */
-    private $plugin;
+    private Forward $plugin;
     private ServiceManager $services;
 
     public function setUp(): void
@@ -77,7 +73,8 @@ class ForwardTest extends TestCase
                 'ControllerPluginManager' => static fn($services, $name): PluginManager => new PluginManager($services),
                 'EventManager'            => fn($services, $name): EventManager =>
                     $this->createEventManager($services->get('SharedEventManager')),
-                'SharedEventManager'      => static fn($services, $name): SharedEventManager => new SharedEventManager(),
+                'SharedEventManager'      => static fn($services, $name): SharedEventManager =>
+                new SharedEventManager(),
             ],
             'shared'    => [
                 'EventManager' => false,
@@ -96,16 +93,12 @@ class ForwardTest extends TestCase
         $this->plugin = $plugins->get('forward');
     }
 
-    /**
-     * @param SharedEventManager
-     * @return EventManager
-     */
-    protected function createEventManager(SharedEventManagerInterface $sharedManager)
+    protected function createEventManager(SharedEventManagerInterface $sharedManager): EventManager
     {
         return new EventManager($sharedManager);
     }
 
-    public function testPluginWithoutEventAwareControllerRaisesDomainException()
+    public function testPluginWithoutEventAwareControllerRaisesDomainException(): void
     {
         $controller = new UneventfulController();
         $plugin     = new ForwardPlugin($this->controllers);
@@ -115,14 +108,14 @@ class ForwardTest extends TestCase
         $plugin->dispatch('forward');
     }
 
-    public function testPluginWithoutControllerLocatorRaisesServiceNotCreatedException()
+    public function testPluginWithoutControllerLocatorRaisesServiceNotCreatedException(): void
     {
         $controller = new SampleController();
         $this->expectException(ServiceNotCreatedException::class);
         $plugin = $controller->plugin('forward');
     }
 
-    public function testDispatchRaisesDomainExceptionIfDiscoveredControllerIsNotDispatchable()
+    public function testDispatchRaisesDomainExceptionIfDiscoveredControllerIsNotDispatchable(): void
     {
         $this->controllers->setFactory('bogus', static fn(): stdClass => new stdClass());
         $plugin = new ForwardPlugin($this->controllers);
@@ -133,7 +126,7 @@ class ForwardTest extends TestCase
         $plugin->dispatch('bogus');
     }
 
-    public function testDispatchRaisesDomainExceptionIfCircular()
+    public function testDispatchRaisesDomainExceptionIfCircular(): void
     {
         $event = $this->controller->getEvent();
 
@@ -163,7 +156,8 @@ class ForwardTest extends TestCase
                 'ControllerPluginManager' => static fn($services): PluginManager => new PluginManager($services),
                 'EventManager'            => fn($services, $name): EventManager =>
                     $this->createEventManager($services->get('SharedEventManager')),
-                'SharedEventManager'      => static fn($services, $name): SharedEventManager => new SharedEventManager(),
+                'SharedEventManager'      => static fn($services, $name): SharedEventManager =>
+                new SharedEventManager(),
             ],
             'shared'    => [
                 'EventManager' => false,
@@ -182,7 +176,7 @@ class ForwardTest extends TestCase
         $forward->dispatch('sample', ['action' => 'test-circular']);
     }
 
-    public function testPluginDispatchsRequestedControllerWhenFound()
+    public function testPluginDispatchsRequestedControllerWhenFound(): void
     {
         $result = $this->plugin->dispatch('forward');
         $this->assertIsArray($result);
@@ -192,7 +186,7 @@ class ForwardTest extends TestCase
         );
     }
 
-    public function testNonArrayListenerDoesNotRaiseErrorWhenPluginDispatchsRequestedController()
+    public function testNonArrayListenerDoesNotRaiseErrorWhenPluginDispatchsRequestedController(): void
     {
         $services     = $this->services;
         $events       = $services->get('EventManager');
@@ -217,7 +211,7 @@ class ForwardTest extends TestCase
         );
     }
 
-    public function testProblemListenersAreDetachedAndReattachedWhenPluginDispatchesRequestedController()
+    public function testProblemListenersAreDetachedAndReattachedWhenPluginDispatchesRequestedController(): void
     {
         $services = $this->services;
         $events   = $services->get('EventManager');
@@ -252,7 +246,7 @@ class ForwardTest extends TestCase
         $result = $this->plugin->dispatch('forward');
     }
 
-    public function testInvokableProblemListenersAreDetachedAndReattachedWhenPluginDispatchesRequestedController()
+    public function testInvokableProblemListenersAreDetachedAndReattachedWhenPluginDispatchesRequestedController(): void
     {
         $services = $this->services;
         $events   = $services->get('EventManager');
@@ -287,7 +281,7 @@ class ForwardTest extends TestCase
         $result = $this->plugin->dispatch('forward');
     }
 
-    public function testDispatchWillSeedRouteMatchWithPassedParameters()
+    public function testDispatchWillSeedRouteMatchWithPassedParameters(): void
     {
         $result = $this->plugin->dispatch('forward', [
             'action' => 'test-matches',
@@ -300,7 +294,7 @@ class ForwardTest extends TestCase
         $this->assertEquals('foobar', $result['param1']);
     }
 
-    public function testRouteMatchObjectRemainsSameFollowingForwardDispatch()
+    public function testRouteMatchObjectRemainsSameFollowingForwardDispatch(): void
     {
         $routeMatch            = $this->controller->getEvent()->getRouteMatch();
         $matchParams           = $routeMatch->getParams();
@@ -318,7 +312,7 @@ class ForwardTest extends TestCase
         $this->assertEquals($matchMatchedRouteName, $testMatchedRouteName);
     }
 
-    public function testAllowsPassingEmptyArrayOfRouteParams()
+    public function testAllowsPassingEmptyArrayOfRouteParams(): void
     {
         $result = $this->plugin->dispatch('forward', []);
         $this->assertIsArray($result);
@@ -331,7 +325,7 @@ class ForwardTest extends TestCase
     /**
      * @group 6398
      */
-    public function testSetListenersToDetachIsFluent()
+    public function testSetListenersToDetachIsFluent(): void
     {
         $this->assertSame($this->plugin, $this->plugin->setListenersToDetach([]));
     }

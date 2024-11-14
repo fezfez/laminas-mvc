@@ -11,11 +11,12 @@ use function class_exists;
 
 class MiddlewareAbstractFactory implements AbstractFactoryInterface
 {
-    public $classmap = [
+    public array $classmap = [
         'test' => Middleware::class,
     ];
 
-    public function canCreate(containerinterface $container, $name)
+    /** @inheritDoc */
+    public function canCreate(containerinterface $container, $requestedName)
     {
         if (! isset($this->classmap[$name])) {
             return false;
@@ -25,7 +26,8 @@ class MiddlewareAbstractFactory implements AbstractFactoryInterface
         return class_exists($classname);
     }
 
-    public function __invoke(containerinterface $container, $name, ?array $options = null)
+    /** @inheritDoc */
+    public function __invoke(containerinterface $container, $requestedName, ?array $options = null)
     {
         $classname = $this->classmap[$name];
         return new $classname();

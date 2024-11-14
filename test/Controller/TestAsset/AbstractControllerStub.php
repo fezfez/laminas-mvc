@@ -9,7 +9,7 @@ use Laminas\Mvc\MvcEvent;
 
 class AbstractControllerStub extends AbstractController
 {
-    public function onDispatch(MvcEvent $e)
+    public function onDispatch(MvcEvent $e): void
     {
         // noop
     }

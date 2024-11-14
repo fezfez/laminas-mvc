@@ -17,10 +17,10 @@ use Laminas\Stdlib\DispatchableInterface;
 use Traversable;
 
 use function array_shift;
+use function get_debug_type;
 use function is_array;
 use function is_object;
 use function sprintf;
-use function var_export;
 
 class Forward extends AbstractPlugin
 {
@@ -234,7 +234,7 @@ class Forward extends AbstractPlugin
         if (! $controller instanceof InjectApplicationEventInterface) {
             throw new DomainException(sprintf(
                 'Forward plugin requires a controller that implements InjectApplicationEventInterface; received %s',
-                (get_debug_type($controller))
+                get_debug_type($controller)
             ));
         }
 

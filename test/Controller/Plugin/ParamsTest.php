@@ -41,37 +41,37 @@ class ParamsTest extends TestCase
         $this->plugin = $this->controller->plugin('params');
     }
 
-    public function testFromRouteIsDefault()
+    public function testFromRouteIsDefault(): void
     {
         $value = $this->plugin->__invoke('value');
         $this->assertEquals($value, 'rm:1234');
     }
 
-    public function testFromRouteReturnsDefaultIfSet()
+    public function testFromRouteReturnsDefaultIfSet(): void
     {
         $value = $this->plugin->fromRoute('foo', 'bar');
         $this->assertEquals($value, 'bar');
     }
 
-    public function testFromRouteReturnsExpectedValue()
+    public function testFromRouteReturnsExpectedValue(): void
     {
         $value = $this->plugin->fromRoute('value');
         $this->assertEquals($value, 'rm:1234');
     }
 
-    public function testFromRouteNotReturnsExpectedValueWithDefault()
+    public function testFromRouteNotReturnsExpectedValueWithDefault(): void
     {
         $value = $this->plugin->fromRoute('value', 'default');
         $this->assertEquals($value, 'rm:1234');
     }
 
-    public function testFromRouteReturnsAllIfEmpty()
+    public function testFromRouteReturnsAllIfEmpty(): void
     {
         $value = $this->plugin->fromRoute();
         $this->assertEquals($value, ['value' => 'rm:1234', 'other' => '1234:rm']);
     }
 
-    public function testFromQueryReturnsDefaultIfSet()
+    public function testFromQueryReturnsDefaultIfSet(): void
     {
         $this->setQuery();
 
@@ -79,7 +79,7 @@ class ParamsTest extends TestCase
         $this->assertEquals($value, 'bar');
     }
 
-    public function testFromQueryReturnsExpectedValue()
+    public function testFromQueryReturnsExpectedValue(): void
     {
         $this->setQuery();
 
@@ -87,7 +87,7 @@ class ParamsTest extends TestCase
         $this->assertEquals($value, 'query:1234');
     }
 
-    public function testFromQueryReturnsExpectedValueWithDefault()
+    public function testFromQueryReturnsExpectedValueWithDefault(): void
     {
         $this->setQuery();
 
@@ -95,7 +95,7 @@ class ParamsTest extends TestCase
         $this->assertEquals($value, 'query:1234');
     }
 
-    public function testFromQueryReturnsAllIfEmpty()
+    public function testFromQueryReturnsAllIfEmpty(): void
     {
         $this->setQuery();
 
@@ -103,7 +103,7 @@ class ParamsTest extends TestCase
         $this->assertEquals($value, ['value' => 'query:1234', 'other' => '1234:other']);
     }
 
-    public function testFromPostReturnsDefaultIfSet()
+    public function testFromPostReturnsDefaultIfSet(): void
     {
         $this->setPost();
 
@@ -111,7 +111,7 @@ class ParamsTest extends TestCase
         $this->assertEquals($value, 'bar');
     }
 
-    public function testFromPostReturnsExpectedValue()
+    public function testFromPostReturnsExpectedValue(): void
     {
         $this->setPost();
 
@@ -119,7 +119,7 @@ class ParamsTest extends TestCase
         $this->assertEquals($value, 'post:1234');
     }
 
-    public function testFromPostReturnsExpectedValueWithDefault()
+    public function testFromPostReturnsExpectedValueWithDefault(): void
     {
         $this->setPost();
 
@@ -127,7 +127,7 @@ class ParamsTest extends TestCase
         $this->assertEquals($value, 'post:1234');
     }
 
-    public function testFromPostReturnsAllIfEmpty()
+    public function testFromPostReturnsAllIfEmpty(): void
     {
         $this->setPost();
 
@@ -135,7 +135,7 @@ class ParamsTest extends TestCase
         $this->assertEquals($value, ['value' => 'post:1234', 'other' => '2345:other']);
     }
 
-    public function testFromFilesReturnsExpectedValue()
+    public function testFromFilesReturnsExpectedValue(): void
     {
         $file = [
             'name'     => 'test.txt',
@@ -151,7 +151,7 @@ class ParamsTest extends TestCase
         $this->assertEquals($value, $file);
     }
 
-    public function testFromFilesReturnsAllIfEmpty()
+    public function testFromFilesReturnsAllIfEmpty(): void
     {
         $file = [
             'name'     => 'test.txt',
@@ -176,7 +176,7 @@ class ParamsTest extends TestCase
         $this->assertEquals($value, ['file' => $file, 'file2' => $file2]);
     }
 
-    public function testFromHeaderReturnsExpectedValue()
+    public function testFromHeaderReturnsExpectedValue(): void
     {
         $header = new GenericHeader('X-TEST', 'test');
         $this->request->getHeaders()->addHeader($header);
@@ -186,7 +186,7 @@ class ParamsTest extends TestCase
         $this->assertSame($value, $header);
     }
 
-    public function testFromHeaderReturnsAllIfEmpty()
+    public function testFromHeaderReturnsAllIfEmpty(): void
     {
         $header  = new GenericHeader('X-TEST', 'test');
         $header2 = new GenericHeader('OTHER-TEST', 'value:12345');
@@ -200,12 +200,12 @@ class ParamsTest extends TestCase
         $this->assertSame($value, ['X-TEST' => 'test', 'OTHER-TEST' => 'value:12345']);
     }
 
-    public function testInvokeWithNoArgumentsReturnsInstance()
+    public function testInvokeWithNoArgumentsReturnsInstance(): void
     {
         $this->assertSame($this->plugin, $this->plugin->__invoke());
     }
 
-    protected function setQuery()
+    protected function setQuery(): void
     {
         $this->request->setMethod(Request::METHOD_GET);
         $this->request->getQuery()->set('value', 'query:1234');
@@ -214,7 +214,7 @@ class ParamsTest extends TestCase
         $this->controller->dispatch($this->request);
     }
 
-    protected function setPost()
+    protected function setPost(): void
     {
         $this->request->setMethod(Request::METHOD_POST);
         $this->request->getPost()->set('value', 'post:1234');

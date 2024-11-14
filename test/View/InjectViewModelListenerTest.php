@@ -30,7 +30,7 @@ class InjectViewModelListenerTest extends TestCase
         $this->event->setRouteMatch($this->routeMatch);
     }
 
-    public function testReplacesEventModelWithChildModelIfChildIsMarkedTerminal()
+    public function testReplacesEventModelWithChildModelIfChildIsMarkedTerminal(): void
     {
         $childModel = new ViewModel();
         $childModel->setTerminal(true);
@@ -40,7 +40,7 @@ class InjectViewModelListenerTest extends TestCase
         $this->assertSame($childModel, $this->event->getViewModel());
     }
 
-    public function testAddsViewModelAsChildOfEventViewModelWhenChildIsNotTerminal()
+    public function testAddsViewModelAsChildOfEventViewModelWhenChildIsNotTerminal(): void
     {
         $childModel = new ViewModel();
         $this->event->setResult($childModel);
@@ -57,14 +57,14 @@ class InjectViewModelListenerTest extends TestCase
         $this->assertSame($childModel, $child);
     }
 
-    public function testLackOfViewModelInResultBypassesViewModelInjection()
+    public function testLackOfViewModelInResultBypassesViewModelInjection(): void
     {
         $this->assertNull($this->listener->injectViewModel($this->event));
         $this->assertNull($this->event->getResult());
         $this->assertFalse($this->event->getViewModel()->hasChildren());
     }
 
-    public function testAttachesListenersAtExpectedPriorities()
+    public function testAttachesListenersAtExpectedPriorities(): void
     {
         $events = new EventManager();
         $this->listener->attach($events);
@@ -83,7 +83,7 @@ class InjectViewModelListenerTest extends TestCase
         );
     }
 
-    public function testDetachesListeners()
+    public function testDetachesListeners(): void
     {
         $events = new EventManager();
         $this->listener->attach($events);

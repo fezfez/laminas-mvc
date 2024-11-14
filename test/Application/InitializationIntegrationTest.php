@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace LaminasTest\Mvc\Application;
 
+use Application\Controller\PathController;
 use Laminas\Mvc\Application;
 use Laminas\Mvc\MvcEvent;
 use PHPUnit\Framework\TestCase;
@@ -38,8 +39,8 @@ class InitializationIntegrationTest extends TestCase
         $content = ob_get_clean();
 
         $response = $application->getResponse();
-        $this->assertStringContainsString(\Application\Controller\PathController::class, $response->getContent());
-        $this->assertStringContainsString(\Application\Controller\PathController::class, $content);
+        $this->assertStringContainsString(PathController::class, $response->getContent());
+        $this->assertStringContainsString(PathController::class, $content);
         $this->assertStringContainsString(MvcEvent::EVENT_DISPATCH, $response->toString());
     }
 }

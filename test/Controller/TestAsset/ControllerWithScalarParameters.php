@@ -8,10 +8,10 @@ use Laminas\Mvc\Controller\AbstractActionController;
 
 class ControllerWithScalarParameters extends AbstractActionController
 {
-    public $foo = 'foo';
-    public $bar = 'bar';
+    public mixed $foo = 'foo';
+    public mixed $bar = 'bar';
 
-    public function __construct($foo, $bar)
+    public function __construct(mixed $foo, mixed $bar)
     {
         $this->foo = $foo;
         $this->bar = $bar;

@@ -9,9 +9,10 @@ use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class SamplePluginWithConstructorFactory implements FactoryInterface
 {
-    protected $options;
+    protected array $options;
 
-    public function __invoke(containerinterface $container, $name, ?array $options = null)
+    /** @inheritDoc */
+    public function __invoke(containerinterface $container, $requestedName, ?array $options = null)
     {
         return new SamplePluginWithConstructor($options);
     }

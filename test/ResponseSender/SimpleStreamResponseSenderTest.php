@@ -17,7 +17,7 @@ use function ob_start;
 
 class SimpleStreamResponseSenderTest extends TestCase
 {
-    public function testSendResponseIgnoresInvalidResponseTypes()
+    public function testSendResponseIgnoresInvalidResponseTypes(): void
     {
         $mockResponse          = $this->getMockForAbstractClass(ResponseInterface::class);
         $mockSendResponseEvent = $this->getSendResponseEventMock($mockResponse);
@@ -28,7 +28,7 @@ class SimpleStreamResponseSenderTest extends TestCase
         $this->assertEquals('', $body);
     }
 
-    public function testSendResponseTwoTimesPrintsResponseOnlyOnce()
+    public function testSendResponseTwoTimesPrintsResponseOnlyOnce(): void
     {
         $file         = fopen(__DIR__ . '/TestAsset/sample-stream-file.txt', 'rb');
         $mockResponse = $this->createMock(Stream::class);
@@ -47,7 +47,7 @@ class SimpleStreamResponseSenderTest extends TestCase
         $this->assertEquals('', $body);
     }
 
-    protected function getSendResponseEventMock($response)
+    protected function getSendResponseEventMock(ResponseInterface $response): SendResponseEvent
     {
         $mockSendResponseEvent = $this->getMockBuilder(SendResponseEvent::class)
             ->onlyMethods(['getResponse'])

@@ -9,8 +9,11 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class Middleware
 {
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $next = null)
-    {
+    public function __invoke(
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        mixed $next = null
+    ): ResponseInterface {
         $response->getBody()->write(self::class);
         return $response;
     }

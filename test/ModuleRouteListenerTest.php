@@ -33,7 +33,7 @@ class ModuleRouteListenerTest extends TestCase
         $this->moduleRouteListener->attach($this->events, -1);
     }
 
-    public function testRouteReturningModuleNamespaceInRouteMatchTriggersControllerRename()
+    public function testRouteReturningModuleNamespaceInRouteMatchTriggersControllerRename(): void
     {
         $this->router->addRoute('foo', [
             'type'    => 'Literal',
@@ -58,7 +58,7 @@ class ModuleRouteListenerTest extends TestCase
         $this->assertEquals('Index', $matches->getParam(ModuleRouteListener::ORIGINAL_CONTROLLER));
     }
 
-    public function testRouteNotReturningModuleNamespaceInRouteMatchLeavesControllerUntouched()
+    public function testRouteNotReturningModuleNamespaceInRouteMatchLeavesControllerUntouched(): void
     {
         $this->router->addRoute('foo', [
             'type'    => 'Literal',
@@ -81,7 +81,7 @@ class ModuleRouteListenerTest extends TestCase
         $this->assertEquals('Index', $matches->getParam('controller'));
     }
 
-    public function testMultipleRegistrationShouldNotResultInMultiplePrefixingOfControllerName()
+    public function testMultipleRegistrationShouldNotResultInMultiplePrefixingOfControllerName(): void
     {
         $moduleListener = new ModuleRouteListener();
         $moduleListener->attach($this->events);
@@ -109,7 +109,7 @@ class ModuleRouteListenerTest extends TestCase
         $this->assertEquals('Index', $matches->getParam(ModuleRouteListener::ORIGINAL_CONTROLLER));
     }
 
-    public function testRouteMatchIsTransformedToProperControllerClassName()
+    public function testRouteMatchIsTransformedToProperControllerClassName(): void
     {
         $moduleListener = new ModuleRouteListener();
         $moduleListener->attach($this->events);

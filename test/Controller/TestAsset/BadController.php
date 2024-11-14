@@ -10,12 +10,12 @@ use Laminas\Mvc\Controller\AbstractActionController;
 
 class BadController extends AbstractActionController
 {
-    public function testAction()
+    public function testAction(): void
     {
         throw new Exception('Raised an exception');
     }
 
-    public function testPhp7ErrorAction()
+    public function testPhp7ErrorAction(): void
     {
         throw new Error('Raised an error');
     }

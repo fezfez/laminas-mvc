@@ -6,6 +6,7 @@ namespace LaminasTest\Mvc\Application;
 
 use Laminas\Http\PhpEnvironment\Request;
 use Laminas\Http\PhpEnvironment\Response;
+use Laminas\Mvc\ApplicationInterface;
 use Laminas\Mvc\Controller\ControllerManager;
 use Laminas\Mvc\Service\ServiceListenerFactory;
 use Laminas\Mvc\Service\ServiceManagerConfig;
@@ -21,7 +22,7 @@ use stdClass;
 
 trait InvalidControllerTypeTrait
 {
-    public function prepareApplication()
+    public function prepareApplication(): ApplicationInterface
     {
         $config = [
             'router' => [
