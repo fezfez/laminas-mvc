@@ -36,7 +36,7 @@ class ServiceManagerConfigTest extends TestCase
      * @param null|SharedEventManagerInterface
      * @return EventManager
      */
-    protected function createEventManager(SharedEventManagerInterface $sharedManager = null)
+    protected function createEventManager(?SharedEventManagerInterface $sharedManager = null)
     {
         return new EventManager($sharedManager ?: $this->services->get('SharedEventManager'));
     }
