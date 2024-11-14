@@ -26,7 +26,7 @@ class Locator implements ServiceLocatorInterface
         return (isset($this->services[$name]));
     }
 
-    public function build($name, array $options = null)
+    public function build($name, ?array $options = null)
     {
         if (! isset($this->services[$name])) {
             throw new ServiceNotFoundException();

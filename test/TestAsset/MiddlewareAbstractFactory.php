@@ -21,7 +21,7 @@ class MiddlewareAbstractFactory implements AbstractFactoryInterface
         return class_exists($classname);
     }
 
-    public function __invoke(ContainerInterface $container, $name, array $options = null)
+    public function __invoke(ContainerInterface $container, $name, ?array $options = null)
     {
         $classname = $this->classmap[$name];
         return new $classname;

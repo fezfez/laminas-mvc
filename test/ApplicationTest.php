@@ -193,7 +193,7 @@ class ApplicationTest extends TestCase
         $this->assertContains([$listenerService, $method], $listeners);
     }
 
-    public function bootstrapRegistersListenersProvider()
+    public static function bootstrapRegistersListenersProvider()
     {
         // @codingStandardsIgnoreStart
         //                     [ Service Name,           Event,                       Method,        isCustom ]
@@ -560,13 +560,13 @@ class ApplicationTest extends TestCase
 
         $response     = $this->createMock(ResponseInterface::class);
         $finishMock   = $this->getMockBuilder(stdClass::class)
-            ->setMethods(['__invoke'])
+            ->addMethods(['__invoke'])
             ->getMock();
         $routeMock    = $this->getMockBuilder(stdClass::class)
-            ->setMethods(['__invoke'])
+            ->addMethods(['__invoke'])
             ->getMock();
         $dispatchMock = $this->getMockBuilder(stdClass::class)
-            ->setMethods(['__invoke'])
+            ->addMethods(['__invoke'])
             ->getMock();
 
         $routeMock->expects($this->once())->method('__invoke')->will(
@@ -596,16 +596,16 @@ class ApplicationTest extends TestCase
 
         $response     = $this->createMock(ResponseInterface::class);
         $errorMock    = $this->getMockBuilder(stdClass::class)
-            ->setMethods(['__invoke'])
+            ->addMethods(['__invoke'])
             ->getMock();
         $finishMock   = $this->getMockBuilder(stdClass::class)
-            ->setMethods(['__invoke'])
+            ->addMethods(['__invoke'])
             ->getMock();
         $routeMock    = $this->getMockBuilder(stdClass::class)
-            ->setMethods(['__invoke'])
+            ->addMethods(['__invoke'])
             ->getMock();
         $dispatchMock = $this->getMockBuilder(stdClass::class)
-            ->setMethods(['__invoke'])
+            ->addMethods(['__invoke'])
             ->getMock();
 
         $errorMock->expects($this->once())->method('__invoke')->will(
@@ -639,7 +639,7 @@ class ApplicationTest extends TestCase
         $this->assertSame($response, $this->application->getMvcEvent()->getResponse());
     }
 
-    public function eventPropagation()
+    public static function eventPropagation()
     {
         return [
             'route'    => [[MvcEvent::EVENT_ROUTE]],

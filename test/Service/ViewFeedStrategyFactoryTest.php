@@ -11,14 +11,12 @@ use Prophecy\PhpUnit\ProphecyTrait;
 
 class ViewFeedStrategyFactoryTest extends TestCase
 {
-    use ProphecyTrait;
-
     private function createContainer()
     {
-        $renderer  = $this->prophesize(FeedRenderer::class);
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->get('ViewFeedRenderer')->will(static fn(): object => $renderer->reveal());
-        return $container->reveal();
+        $renderer  = $this->createMock(FeedRenderer::class);
+        $container = $this->createMock(ContainerInterface::class);
+        $container->method('get')->with('ViewFeedRenderer')->willReturn($renderer);
+        return $container;
     }
 
     public function testReturnsFeedStrategy()

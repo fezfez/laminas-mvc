@@ -24,7 +24,7 @@ class RouteNotFoundStrategyTest extends TestCase
         $this->strategy = new RouteNotFoundStrategy();
     }
 
-    public function notFoundResponseProvider()
+    public static function notFoundResponseProvider()
     {
         return [
             ['bar', 'assertEquals'],

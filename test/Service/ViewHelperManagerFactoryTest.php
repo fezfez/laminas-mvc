@@ -29,7 +29,7 @@ class ViewHelperManagerFactoryTest extends TestCase
     /**
      * @return array
      */
-    public function emptyConfiguration()
+    public static function emptyConfiguration()
     {
         return [
             'no-config'                => [[]],
@@ -52,7 +52,7 @@ class ViewHelperManagerFactoryTest extends TestCase
         $this->assertInstanceof(Doctype::class, $doctype);
     }
 
-    public function urlHelperNames()
+    public static function urlHelperNames()
     {
         return [
             ['url'],
@@ -74,18 +74,18 @@ class ViewHelperManagerFactoryTest extends TestCase
             __FUNCTION__
         ));
 
-        $routeMatch = $this->prophesize(RouteMatch::class)->reveal();
-        $mvcEvent = $this->prophesize(MvcEvent::class);
-        $mvcEvent->getRouteMatch()->willReturn($routeMatch);
+        $routeMatch = $this->createMock(RouteMatch::class);
+        $mvcEvent = $this->createMock(MvcEvent::class);
+        $mvcEvent->method('getRouteMatch')->willReturn($routeMatch);
 
-        $application = $this->prophesize(Application::class);
-        $application->getMvcEvent()->willReturn($mvcEvent->reveal());
+        $application = $this->createMock(Application::class);
+        $application->method('getMvcEvent')->willReturn($mvcEvent);
 
-        $router = $this->prophesize(RouteStackInterface::class)->reveal();
+        $router = $this->createMock(RouteStackInterface::class);
 
         $this->services->setService('HttpRouter', $router);
         $this->services->setService('Router', $router);
-        $this->services->setService('Application', $application->reveal());
+        $this->services->setService('Application', $application);
         $this->services->setService('config', []);
 
         $manager = $this->factory->__invoke($this->services, HelperPluginManager::class);
@@ -95,7 +95,7 @@ class ViewHelperManagerFactoryTest extends TestCase
         $this->assertAttributeSame($router, 'router', $helper, 'Router was not injected');
     }
 
-    public function basePathConfiguration()
+    public static function basePathConfiguration()
     {
         $names = ['basepath', 'basePath', 'BasePath', BasePath::class, 'laminasviewhelperbasepath'];
 
@@ -111,9 +111,9 @@ class ViewHelperManagerFactoryTest extends TestCase
             'request-base' => [[
                 'config' => [], // fails creating plugin manager without this
                 'Request' => function (): object {
-                    $request = $this->prophesize(Request::class);
-                    $request->getBasePath()->willReturn('/foo/bat');
-                    return $request->reveal();
+                    $request = new Request();
+                    $request->setBasePath('/foo/bat');
+                    return $request;
                 },
             ], '/foo/bat'],
         ];
@@ -148,7 +148,7 @@ class ViewHelperManagerFactoryTest extends TestCase
         $this->assertEquals($expected, $helper());
     }
 
-    public function doctypeHelperNames()
+    public static function doctypeHelperNames()
     {
         return [
             ['doctype'],

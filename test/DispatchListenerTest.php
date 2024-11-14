@@ -21,25 +21,23 @@ use Prophecy\PhpUnit\ProphecyTrait;
 
 class DispatchListenerTest extends TestCase
 {
-    use ProphecyTrait;
-
-    public function createMvcEvent($controllerMatched)
+    private function createMvcEvent($controllerMatched)
     {
         $response   = new Response();
-        $routeMatch = $this->prophesize(RouteMatch::class);
-        $routeMatch->getParam('controller', 'not-found')->willReturn('path');
+        $routeMatch = $this->createMock(RouteMatch::class);
+        $routeMatch->method('getParam')->with('controller', 'not-found')->willReturn('path');
 
         $eventManager = new EventManager();
 
-        $application = $this->prophesize(Application::class);
-        $application->getEventManager()->willReturn($eventManager);
-        $application->getResponse()->willReturn($response);
+        $application = $this->createMock(Application::class);
+        $application->method('getEventManager')->willReturn($eventManager);
+        $application->method('getResponse')->willReturn($response);
 
         $event = new MvcEvent();
         $event->setRequest(new Request());
         $event->setResponse($response);
-        $event->setApplication($application->reveal());
-        $event->setRouteMatch($routeMatch->reveal());
+        $event->setApplication($application);
+        $event->setRouteMatch($routeMatch);
 
         return $event;
     }
@@ -116,7 +114,7 @@ class DispatchListenerTest extends TestCase
     /**
      * @return mixed[][]
      */
-    public function alreadySetMvcEventResultProvider()
+    public static function alreadySetMvcEventResultProvider()
     {
         return [
             [123],
@@ -124,13 +122,89 @@ class DispatchListenerTest extends TestCase
             [false],
             [[]],
             [new stdClass()],
-            [$this],
-            [$this->createMock(ModelInterface::class)],
-            [$this->createMock(ResponseInterface::class)],
-            [$this->createMock(Response::class)],
             [['view model data' => 'as an array']],
             [['foo' => new stdClass()]],
             ['a response string'],
         ];
+    }
+
+    public function testWillNotDispatchWhenAnMvcEventResultIsAlreadySetWithModelInterface() : void
+    {
+        $alreadySetResult = $this->createMock(ModelInterface::class);
+        $event = $this->createMvcEvent('path');
+
+        $event->setResult($alreadySetResult);
+
+        $listener = new DispatchListener(new ControllerManager(new ServiceManager(), ['abstract_factories' => [
+            UnlocatableControllerLoaderAbstractFactory::class,
+        ]]));
+
+        $event->getApplication()->getEventManager()->attach(MvcEvent::EVENT_DISPATCH_ERROR, static function () : void {
+            self::fail('No dispatch failures should be raised - dispatch should be skipped');
+        });
+
+        $listener->onDispatch($event);
+
+        self::assertSame($alreadySetResult, $event->getResult(), 'The event result was not replaced');
+    }
+
+    public function testWillNotDispatchWhenAnMvcEventResultIsAlreadySetWithResponseInterface() : void
+    {
+        $alreadySetResult = $this->createMock(ResponseInterface::class);
+        $event = $this->createMvcEvent('path');
+
+        $event->setResult($alreadySetResult);
+
+        $listener = new DispatchListener(new ControllerManager(new ServiceManager(), ['abstract_factories' => [
+            UnlocatableControllerLoaderAbstractFactory::class,
+        ]]));
+
+        $event->getApplication()->getEventManager()->attach(MvcEvent::EVENT_DISPATCH_ERROR, static function () : void {
+            self::fail('No dispatch failures should be raised - dispatch should be skipped');
+        });
+
+        $listener->onDispatch($event);
+
+        self::assertSame($alreadySetResult, $event->getResult(), 'The event result was not replaced');
+    }
+
+    public function testWillNotDispatchWhenAnMvcEventResultIsAlreadySetWithResponse() : void
+    {
+        $alreadySetResult = $this->createMock(Response::class);
+        $event = $this->createMvcEvent('path');
+
+        $event->setResult($alreadySetResult);
+
+        $listener = new DispatchListener(new ControllerManager(new ServiceManager(), ['abstract_factories' => [
+            UnlocatableControllerLoaderAbstractFactory::class,
+        ]]));
+
+        $event->getApplication()->getEventManager()->attach(MvcEvent::EVENT_DISPATCH_ERROR, static function () : void {
+            self::fail('No dispatch failures should be raised - dispatch should be skipped');
+        });
+
+        $listener->onDispatch($event);
+
+        self::assertSame($alreadySetResult, $event->getResult(), 'The event result was not replaced');
+    }
+
+    public function testWillNotDispatchWhenAnMvcEventResultIsAlreadySetWithThis() : void
+    {
+        $alreadySetResult = $this;
+        $event = $this->createMvcEvent('path');
+
+        $event->setResult($alreadySetResult);
+
+        $listener = new DispatchListener(new ControllerManager(new ServiceManager(), ['abstract_factories' => [
+            UnlocatableControllerLoaderAbstractFactory::class,
+        ]]));
+
+        $event->getApplication()->getEventManager()->attach(MvcEvent::EVENT_DISPATCH_ERROR, static function () : void {
+            self::fail('No dispatch failures should be raised - dispatch should be skipped');
+        });
+
+        $listener->onDispatch($event);
+
+        self::assertSame($alreadySetResult, $event->getResult(), 'The event result was not replaced');
     }
 }

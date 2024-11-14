@@ -10,12 +10,11 @@ use Prophecy\PhpUnit\ProphecyTrait;
 
 class RequestFactoryTest extends TestCase
 {
-    use ProphecyTrait;
-
     public function testFactoryCreatesHttpRequest()
     {
         $factory = new RequestFactory();
-        $request = $factory($this->prophesize(ContainerInterface::class)->reveal(), 'Request');
+        $container = $this->createMock(ContainerInterface::class);
+        $request = $factory($container, 'Request');
         $this->assertInstanceOf(HttpRequest::class, $request);
     }
 }

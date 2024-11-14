@@ -6,18 +6,15 @@ use Interop\Container\ContainerInterface;
 use Laminas\Mvc\Service\ViewManagerFactory;
 use Laminas\Mvc\View\Http\ViewManager as HttpViewManager;
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 
 class ViewManagerFactoryTest extends TestCase
 {
-    use ProphecyTrait;
-
     private function createContainer()
     {
-        $http      = $this->prophesize(HttpViewManager::class);
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->get('HttpViewManager')->will(static fn(): object => $http->reveal());
-        return $container->reveal();
+        $http = $this->createMock(HttpViewManager::class);
+        $container = $this->createMock(ContainerInterface::class);
+        $container->method('get')->with('HttpViewManager')->willReturn($http);
+        return $container;
     }
 
     public function testReturnsHttpViewManager()

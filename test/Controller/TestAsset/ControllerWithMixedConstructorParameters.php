@@ -18,7 +18,7 @@ class ControllerWithMixedConstructorParameters extends AbstractActionController
         ValidatorPluginManager $validators,
         array $config,
         $foo,
-        array $options = null
+        ?array $options = null
     ) {
         $this->sample = $sample;
         $this->validators = $validators;

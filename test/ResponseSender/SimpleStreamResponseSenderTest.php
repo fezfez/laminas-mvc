@@ -46,7 +46,7 @@ class SimpleStreamResponseSenderTest extends TestCase
     protected function getSendResponseEventMock($response)
     {
         $mockSendResponseEvent = $this->getMockBuilder(SendResponseEvent::class)
-            ->setMethods(['getResponse'])
+            ->onlyMethods(['getResponse'])
             ->getMock();
         $mockSendResponseEvent->expects($this->any())->method('getResponse')->will($this->returnValue($response));
         return $mockSendResponseEvent;

@@ -45,7 +45,7 @@ class PhpEnvironmentResponseSenderTest extends TestCase
     {
         $returnValue = false;
         $mockSendResponseEvent = $this->getMockBuilder(SendResponseEvent::class)
-            ->setMethods(['getResponse', 'contentSent', 'setContentSent'])
+            ->onlyMethods(['getResponse', 'contentSent', 'setContentSent'])
             ->getMock();
 
         $mockSendResponseEvent->expects($this->any())

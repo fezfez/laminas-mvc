@@ -19,7 +19,7 @@ class ControllerWithDependencies implements DispatchableInterface
         $this->injectedValue = $injected;
     }
 
-    public function dispatch(RequestInterface $request, ResponseInterface $response = null)
+    public function dispatch(RequestInterface $request, ?ResponseInterface $response = null)
     {
     }
 }

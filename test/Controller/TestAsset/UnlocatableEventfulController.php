@@ -22,7 +22,7 @@ class UnlocatableEventfulController implements DispatchableInterface, InjectAppl
         return $this->event;
     }
 
-    public function dispatch(Request $request, Response $response = null)
+    public function dispatch(Request $request, ?Response $response = null)
     {
     }
 }

@@ -17,8 +17,6 @@ use Prophecy\PhpUnit\ProphecyTrait;
  */
 class InjectTemplateListenerFactoryTest extends TestCase
 {
-    use ProphecyTrait;
-
     public function testFactoryCanCreateInjectTemplateListener()
     {
         $this->buildInjectTemplateListenerWithConfig([]);
@@ -52,17 +50,15 @@ class InjectTemplateListenerFactoryTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|InjectTemplateListener
+     * @return \PHPUnit\Framework\MockObject\MockObject|InjectTemplateListener
      */
     private function buildInjectTemplateListenerWithConfig(mixed $config)
     {
-        $serviceLocator = $this->prophesize(ServiceLocatorInterface::class);
-        $serviceLocator->willImplement(ContainerInterface::class);
-
-        $serviceLocator->get('config')->willReturn($config);
+        $serviceLocator = $this->createMock(ServiceLocatorInterface::class);
+        $serviceLocator->method('get')->willReturn($config);
 
         $factory  = new InjectTemplateListenerFactory();
-        $listener = $factory($serviceLocator->reveal(), 'InjectTemplateListener');
+        $listener = $factory($serviceLocator, 'InjectTemplateListener');
 
         $this->assertInstanceOf(InjectTemplateListener::class, $listener);
 
