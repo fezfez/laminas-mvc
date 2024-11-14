@@ -28,7 +28,7 @@ use stdClass;
 
 class ForwardTest extends TestCase
 {
-    private PluginManager $plugins;
+    private readonly PluginManager $plugins;
 
     /**
      * @var ControllerManager
@@ -223,11 +223,11 @@ class ForwardTest extends TestCase
         $sharedEvents = $this->createMock(SharedEventManagerInterface::class);
         $sharedEvents->expects($this->once())
             ->method('detach')
-            ->with($myCallback, 'Laminas\Stdlib\DispatchableInterface');
+            ->with($myCallback, \Laminas\Stdlib\DispatchableInterface::class);
         $sharedEvents
             ->expects($this->once())
             ->method('attach')
-            ->with('Laminas\Stdlib\DispatchableInterface', MvcEvent::EVENT_DISPATCH, $myCallback, -50);
+            ->with(\Laminas\Stdlib\DispatchableInterface::class, MvcEvent::EVENT_DISPATCH, $myCallback, -50);
         $sharedEvents->expects($this->any())
             ->method('getListeners')
             ->will($this->returnValue([-50 => [$myCallback]]));
@@ -239,9 +239,9 @@ class ForwardTest extends TestCase
         $event->setApplication($application);
 
         $this->plugin->setListenersToDetach([[
-            'id'    => 'Laminas\Stdlib\DispatchableInterface',
+            'id'    => \Laminas\Stdlib\DispatchableInterface::class,
             'event' => MvcEvent::EVENT_DISPATCH,
-            'class' => 'LaminasTest\Mvc\Controller\Plugin\TestAsset\ListenerStub',
+            'class' => \LaminasTest\Mvc\Controller\Plugin\TestAsset\ListenerStub::class,
         ]]);
 
         $result = $this->plugin->dispatch('forward');
@@ -256,11 +256,11 @@ class ForwardTest extends TestCase
         $sharedEvents = $this->createMock(SharedEventManagerInterface::class);
         $sharedEvents->expects($this->once())
             ->method('detach')
-            ->with($myCallback, 'Laminas\Stdlib\DispatchableInterface');
+            ->with($myCallback, \Laminas\Stdlib\DispatchableInterface::class);
         $sharedEvents
             ->expects($this->once())
             ->method('attach')
-            ->with('Laminas\Stdlib\DispatchableInterface', MvcEvent::EVENT_DISPATCH, $myCallback, -50);
+            ->with(\Laminas\Stdlib\DispatchableInterface::class, MvcEvent::EVENT_DISPATCH, $myCallback, -50);
         $sharedEvents->expects($this->any())
             ->method('getListeners')
             ->will($this->returnValue([-50 => [$myCallback]]));
@@ -272,9 +272,9 @@ class ForwardTest extends TestCase
         $event->setApplication($application);
 
         $this->plugin->setListenersToDetach([[
-            'id'    => 'Laminas\Stdlib\DispatchableInterface',
+            'id'    => \Laminas\Stdlib\DispatchableInterface::class,
             'event' => MvcEvent::EVENT_DISPATCH,
-            'class' => 'LaminasTest\Mvc\Controller\Plugin\TestAsset\ListenerStub',
+            'class' => \LaminasTest\Mvc\Controller\Plugin\TestAsset\ListenerStub::class,
         ]]);
 
         $result = $this->plugin->dispatch('forward');

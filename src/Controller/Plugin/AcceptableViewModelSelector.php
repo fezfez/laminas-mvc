@@ -45,7 +45,7 @@ class AcceptableViewModelSelector extends AbstractPlugin
      *
      * @var string Default ViewModel
      */
-    protected $defaultViewModelName = 'Laminas\View\Model\ViewModel';
+    protected $defaultViewModelName = \Laminas\View\Model\ViewModel::class;
 
     /**
      * Detects an appropriate viewmodel for request.

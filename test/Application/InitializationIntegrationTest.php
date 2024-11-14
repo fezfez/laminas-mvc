@@ -33,8 +33,8 @@ class InitializationIntegrationTest extends TestCase
         $content = ob_get_clean();
 
         $response = $application->getResponse();
-        $this->assertStringContainsString('Application\\Controller\\PathController', $response->getContent());
-        $this->assertStringContainsString('Application\\Controller\\PathController', $content);
+        $this->assertStringContainsString(\Application\Controller\PathController::class, $response->getContent());
+        $this->assertStringContainsString(\Application\Controller\PathController::class, $content);
         $this->assertStringContainsString(MvcEvent::EVENT_DISPATCH, $response->toString());
     }
 }

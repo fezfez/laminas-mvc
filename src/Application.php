@@ -200,7 +200,7 @@ class Application implements
     {
         $eventManager->setIdentifiers([
             self::class,
-            $this::class,
+            static::class,
         ]);
         $this->events = $eventManager;
         return $this;
