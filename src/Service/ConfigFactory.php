@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Mvc\Service;
 
-use Interop\Container\ContainerInterface;
+use interop\container\containerinterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Traversable;
 
@@ -17,12 +19,11 @@ class ConfigFactory implements FactoryInterface
      * It then retrieves the config listener from the module manager, and from
      * that the merged configuration.
      *
-     * @param ContainerInterface $container
      * @param string $name
      * @param null|array $options
      * @return array|Traversable
      */
-    public function __invoke(ContainerInterface $container, $name, ?array $options = null)
+    public function __invoke(containerinterface $container, $name, ?array $options = null)
     {
         $moduleManager = $container->get('ModuleManager');
         $moduleManager->loadModules();

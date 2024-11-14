@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mvc\Controller\Plugin;
 
 use Laminas\Http\Response;
@@ -27,7 +29,7 @@ class RedirectTest extends TestCase
     {
         $this->response = new Response();
 
-        $router = new SimpleRouteStack;
+        $router = new SimpleRouteStack();
         $router->addRoute('home', LiteralRoute::factory([
             'route'    => '/',
             'defaults' => [
@@ -55,7 +57,7 @@ class RedirectTest extends TestCase
     {
         $response = $this->plugin->toRoute('home');
         $this->assertTrue($response->isRedirect());
-        $headers = $response->getHeaders();
+        $headers  = $response->getHeaders();
         $location = $headers->get('Location');
         $this->assertEquals('/', $location->getFieldValue());
     }
@@ -64,7 +66,7 @@ class RedirectTest extends TestCase
     {
         $response = $this->plugin->toUrl('/foo');
         $this->assertTrue($response->isRedirect());
-        $headers = $response->getHeaders();
+        $headers  = $response->getHeaders();
         $location = $headers->get('Location');
         $this->assertEquals('/foo', $location->getFieldValue());
     }
@@ -141,7 +143,7 @@ class RedirectTest extends TestCase
         $routeMatch->setMatchedRouteName('replace');
         $this->controller->getEvent()->setRouteMatch($routeMatch);
         $response = $this->plugin->toRoute('replace', ['action' => 'bar'], [], true);
-        $headers = $response->getHeaders();
+        $headers  = $response->getHeaders();
         $location = $headers->get('Location');
         $this->assertEquals('/foo/bar', $location->getFieldValue());
     }
@@ -160,7 +162,7 @@ class RedirectTest extends TestCase
         $routeMatch->setMatchedRouteName('replace');
         $this->controller->getEvent()->setRouteMatch($routeMatch);
         $response = $this->plugin->toRoute('replace', ['action' => 'bar'], true);
-        $headers = $response->getHeaders();
+        $headers  = $response->getHeaders();
         $location = $headers->get('Location');
         $this->assertEquals('/foo/bar', $location->getFieldValue());
     }
@@ -170,7 +172,7 @@ class RedirectTest extends TestCase
         $this->event->setRouteMatch($this->routeMatch);
         $response = $this->plugin->refresh();
         $this->assertTrue($response->isRedirect());
-        $headers = $response->getHeaders();
+        $headers  = $response->getHeaders();
         $location = $headers->get('Location');
         $this->assertEquals('/', $location->getFieldValue());
     }
@@ -180,7 +182,7 @@ class RedirectTest extends TestCase
         $this->event->setRouteMatch($this->routeMatch);
         $response = $this->plugin->toRoute();
         $this->assertTrue($response->isRedirect());
-        $headers = $response->getHeaders();
+        $headers  = $response->getHeaders();
         $location = $headers->get('Location');
         $this->assertEquals('/', $location->getFieldValue());
     }

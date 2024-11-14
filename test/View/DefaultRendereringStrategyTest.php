@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mvc\View;
 
-use LaminasTest\Mvc\View\TestAsset\DumbStrategy;
 use Laminas\EventManager\EventManager;
 use Laminas\EventManager\SharedEventManager;
 use Laminas\EventManager\Test\EventListenerIntrospectionTrait;
@@ -18,7 +19,11 @@ use Laminas\View\Renderer\PhpRenderer;
 use Laminas\View\Resolver\TemplateMapResolver;
 use Laminas\View\Strategy\PhpRendererStrategy;
 use Laminas\View\View;
+use LaminasTest\Mvc\View\TestAsset\DumbStrategy;
 use PHPUnit\Framework\TestCase;
+
+use function json_encode;
+use function sprintf;
 
 class DefaultRendereringStrategyTest extends TestCase
 {
@@ -130,18 +135,17 @@ class DefaultRendereringStrategyTest extends TestCase
             'invokables' => [
                 'SharedEventManager' => SharedEventManager::class,
             ],
-            'factories' => [
-                'EventManager' => static function ($services) : EventManager {
+            'factories'  => [
+                'EventManager' => static function ($services): EventManager {
                     $sharedEvents = $services->get('SharedEventManager');
-                    $events = new EventManager($sharedEvents);
-                    return $events;
+                    return new EventManager($sharedEvents);
                 },
             ],
-            'services' => [
+            'services'   => [
                 'Request'  => $this->request,
                 'Response' => $this->response,
             ],
-            'shared' => [
+            'shared'     => [
                 'EventManager' => false,
             ],
         ]))->configureServiceManager($services);
@@ -150,7 +154,7 @@ class DefaultRendereringStrategyTest extends TestCase
         $this->event->setApplication($application);
 
         $test = (object) ['flag' => false];
-        $application->getEventManager()->attach(MvcEvent::EVENT_RENDER_ERROR, static function ($e) use ($test) : void {
+        $application->getEventManager()->attach(MvcEvent::EVENT_RENDER_ERROR, static function ($e) use ($test): void {
             $test->flag      = true;
             $test->error     = $e->getError();
             $test->exception = $e->getParam('exception');

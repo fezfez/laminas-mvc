@@ -1,8 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Mvc\Service;
 
-use Interop\Container\ContainerInterface;
+use interop\container\containerinterface;
+use Laminas\ModuleManager\Feature\ControllerPluginProviderInterface;
+use Laminas\ModuleManager\Feature\ControllerProviderInterface;
+use Laminas\ModuleManager\Feature\RouteProviderInterface;
+use Laminas\ModuleManager\Feature\ServiceProviderInterface;
+use Laminas\ModuleManager\Feature\ViewHelperProviderInterface;
 use Laminas\ModuleManager\Listener\DefaultListenerAggregate;
 use Laminas\ModuleManager\Listener\ListenerOptions;
 use Laminas\ModuleManager\ModuleEvent;
@@ -22,12 +29,11 @@ class ModuleManagerFactory implements FactoryInterface
      * the default listener aggregate is attached. The ModuleEvent is also created
      * and attached to the module manager.
      *
-     * @param  ContainerInterface $container
      * @param  string $name
      * @param  null|array $options
      * @return ModuleManager
      */
-    public function __invoke(ContainerInterface $container, $name, ?array $options = null)
+    public function __invoke(containerinterface $container, $name, ?array $options = null)
     {
         $configuration    = $container->get('ApplicationConfig');
         $listenerOptions  = new ListenerOptions($configuration['module_listener_options']);
@@ -37,32 +43,32 @@ class ModuleManagerFactory implements FactoryInterface
         $serviceListener->addServiceManager(
             $container,
             'service_manager',
-            \Laminas\ModuleManager\Feature\ServiceProviderInterface::class,
+            ServiceProviderInterface::class,
             'getServiceConfig'
         );
 
         $serviceListener->addServiceManager(
             'ControllerManager',
             'controllers',
-            \Laminas\ModuleManager\Feature\ControllerProviderInterface::class,
+            ControllerProviderInterface::class,
             'getControllerConfig'
         );
         $serviceListener->addServiceManager(
             'ControllerPluginManager',
             'controller_plugins',
-            \Laminas\ModuleManager\Feature\ControllerPluginProviderInterface::class,
+            ControllerPluginProviderInterface::class,
             'getControllerPluginConfig'
         );
         $serviceListener->addServiceManager(
             'ViewHelperManager',
             'view_helpers',
-            \Laminas\ModuleManager\Feature\ViewHelperProviderInterface::class,
+            ViewHelperProviderInterface::class,
             'getViewHelperConfig'
         );
         $serviceListener->addServiceManager(
             'RoutePluginManager',
             'route_manager',
-            \Laminas\ModuleManager\Feature\RouteProviderInterface::class,
+            RouteProviderInterface::class,
             'getRouteConfig'
         );
 
@@ -70,7 +76,7 @@ class ModuleManagerFactory implements FactoryInterface
         $defaultListeners->attach($events);
         $serviceListener->attach($events);
 
-        $moduleEvent = new ModuleEvent;
+        $moduleEvent = new ModuleEvent();
         $moduleEvent->setParam('ServiceManager', $container);
 
         $moduleManager = new ModuleManager($configuration['modules'], $events);

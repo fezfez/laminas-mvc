@@ -1,9 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mvc\TestAsset;
 
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\ServiceManager\ServiceLocatorInterface;
+
+use function call_user_func_array;
 
 /**
  * Dummy locator used to test handling of locator objects by Application
@@ -23,7 +27,7 @@ class Locator implements ServiceLocatorInterface
 
     public function has($name)
     {
-        return (isset($this->services[$name]));
+        return isset($this->services[$name]);
     }
 
     public function build($name, ?array $options = null)

@@ -1,14 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Mvc\Controller;
 
-use Interop\Container\ContainerInterface;
+use interop\container\containerinterface;
 use Laminas\EventManager\EventManagerAwareInterface;
 use Laminas\EventManager\SharedEventManagerInterface;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\ConfigInterface;
 use Laminas\ServiceManager\Exception\InvalidServiceException;
 use Laminas\Stdlib\DispatchableInterface;
+
+use function get_debug_type;
+use function method_exists;
+use function sprintf;
 
 /**
  * Manager for loading controllers
@@ -37,8 +43,7 @@ class ControllerManager extends AbstractPluginManager
      * Injects an initializer for injecting controllers with an
      * event manager and plugin manager.
      *
-     * @param  ConfigInterface|ContainerInterface $configOrContainerInstance
-     * @param  array $config
+     * @param  ConfigInterface|containerinterface $configOrContainerInstance
      */
     public function __construct($configOrContainerInstance, array $config = [])
     {
@@ -57,7 +62,7 @@ class ControllerManager extends AbstractPluginManager
         if (! $plugin instanceof $this->instanceOf) {
             throw new InvalidServiceException(sprintf(
                 'Plugin of type "%s" is invalid; must implement %s',
-                (get_debug_type($plugin)),
+                get_debug_type($plugin),
                 $this->instanceOf
             ));
         }
@@ -73,10 +78,9 @@ class ControllerManager extends AbstractPluginManager
      * the shared EM injection needs to happen; the conditional will always
      * pass.
      *
-     * @param ContainerInterface $container
      * @param DispatchableInterface $controller
      */
-    public function injectEventManager(ContainerInterface $container, $controller)
+    public function injectEventManager(containerinterface $container, $controller)
     {
         if (! $controller instanceof EventManagerAwareInterface) {
             return;
@@ -93,7 +97,7 @@ class ControllerManager extends AbstractPluginManager
      *
      * @param DispatchableInterface $controller
      */
-    public function injectPluginManager(ContainerInterface $container, $controller)
+    public function injectPluginManager(containerinterface $container, $controller)
     {
         if (! method_exists($controller, 'setPluginManager')) {
             return;

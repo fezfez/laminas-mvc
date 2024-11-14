@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mvc\View;
 
 use Exception;
@@ -11,6 +13,8 @@ use Laminas\Mvc\MvcEvent;
 use Laminas\Mvc\View\Http\ExceptionStrategy;
 use Laminas\View\Model\ViewModel;
 use PHPUnit\Framework\TestCase;
+
+use function count;
 
 class ExceptionStrategyTest extends TestCase
 {
@@ -70,7 +74,7 @@ class ExceptionStrategyTest extends TestCase
 
     public function testCatchesApplicationExceptions()
     {
-        $exception = new Exception;
+        $exception = new Exception();
         $event     = new MvcEvent();
         $event->setParam('exception', $exception);
         $event->setError(Application::ERROR_EXCEPTION);
@@ -94,7 +98,7 @@ class ExceptionStrategyTest extends TestCase
 
     public function testCatchesUnknownErrorTypes()
     {
-        $exception = new Exception;
+        $exception = new Exception();
         $event     = new MvcEvent();
         $event->setParam('exception', $exception);
         $event->setError('custom_error');
@@ -126,7 +130,7 @@ class ExceptionStrategyTest extends TestCase
 
     public function testDoesNothingIfEventResultIsAResponse()
     {
-        $event = new MvcEvent();
+        $event    = new MvcEvent();
         $response = new Response();
         $event->setResponse($response);
         $event->setResult($response);
@@ -161,7 +165,7 @@ class ExceptionStrategyTest extends TestCase
 
     public function testReuseResponseStatusCodeIfItExists()
     {
-        $event = new MvcEvent();
+        $event    = new MvcEvent();
         $response = new Response();
         $response->setStatusCode(401);
         $event->setResponse($response);

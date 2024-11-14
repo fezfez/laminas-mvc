@@ -1,20 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mvc\Service;
 
-use Interop\Container\ContainerInterface;
+use interop\container\containerinterface;
 use Laminas\Mvc\Service\ViewJsonStrategyFactory;
 use Laminas\View\Renderer\JsonRenderer;
 use Laminas\View\Strategy\JsonStrategy;
 use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
 
 class ViewJsonStrategyFactoryTest extends TestCase
 {
     private function createContainer()
     {
         $renderer  = $this->createMock(JsonRenderer::class);
-        $container = $this->createMock(ContainerInterface::class);
+        $container = $this->createMock(containerinterface::class);
         $container->method('get')->with('ViewJsonRenderer')->willReturn($renderer);
         return $container;
     }

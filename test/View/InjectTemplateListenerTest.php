@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mvc\View;
 
 use Laminas\EventManager\EventManager;
@@ -12,6 +14,8 @@ use Laminas\View\Model\ViewModel;
 use LaminasTest\Mvc\Controller\TestAsset\SampleController;
 use PHPUnit\Framework\TestCase;
 
+use function count;
+
 class InjectTemplateListenerTest extends TestCase
 {
     use EventListenerIntrospectionTrait;
@@ -22,11 +26,11 @@ class InjectTemplateListenerTest extends TestCase
 
     public function setUp(): void
     {
-        $controllerMap = [
-            'MappedNs' => true,
+        $controllerMap  = [
+            'MappedNs'             => true,
             'LaminasTest\MappedNs' => true,
         ];
-        $this->listener   = new InjectTemplateListener();
+        $this->listener = new InjectTemplateListener();
         $this->listener->setControllerMap($controllerMap);
         $this->event      = new MvcEvent();
         $this->routeMatch = new RouteMatch([]);
@@ -121,7 +125,7 @@ class InjectTemplateListenerTest extends TestCase
         $this->routeMatch->setParam('controller', 'CiderSales');
         $this->routeMatch->setParam('action', 'PinkiePieRevenue');
 
-        $moduleRouteListener = new ModuleRouteListener;
+        $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->onRoute($this->event);
 
         $model = new ViewModel();
@@ -137,10 +141,10 @@ class InjectTemplateListenerTest extends TestCase
         $this->routeMatch->setParam('controller', 'Sub\CiderSales');
         $this->routeMatch->setParam('action', 'PinkiePieRevenue');
 
-        $moduleRouteListener = new ModuleRouteListener;
+        $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->onRoute($this->event);
 
-        $model  = new ViewModel();
+        $model = new ViewModel();
         $this->event->setResult($model);
         $this->listener->injectTemplate($this->event);
 
@@ -152,7 +156,7 @@ class InjectTemplateListenerTest extends TestCase
         $this->routeMatch->setParam(ModuleRouteListener::MODULE_NAMESPACE, 'LaminasTest\Mvc\Controller\TestAsset');
         $this->routeMatch->setParam('action', 'test');
 
-        $moduleRouteListener = new ModuleRouteListener;
+        $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->onRoute($this->event);
 
         $myViewModel  = new ViewModel();
@@ -171,10 +175,10 @@ class InjectTemplateListenerTest extends TestCase
         $this->routeMatch->setParam('controller', 'TestAsset\SampleController');
         $this->routeMatch->setParam('action', 'test');
 
-        $moduleRouteListener = new ModuleRouteListener;
+        $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->onRoute($this->event);
 
-        $myViewModel  = new ViewModel();
+        $myViewModel = new ViewModel();
         $this->event->setResult($myViewModel);
         $this->listener->injectTemplate($this->event);
 
@@ -193,7 +197,7 @@ class InjectTemplateListenerTest extends TestCase
     public function testControllerMatchedByMapIsInflected()
     {
         $this->routeMatch->setParam('controller', 'MappedNs\SubNs\Controller\Sample');
-        $myViewModel  = new ViewModel();
+        $myViewModel = new ViewModel();
 
         $this->event->setResult($myViewModel);
         $this->listener->injectTemplate($this->event);
@@ -223,7 +227,7 @@ class InjectTemplateListenerTest extends TestCase
     public function testOnlyFullNamespaceMatchIsMapped()
     {
         $this->listener->setControllerMap([
-            'Foo' => 'foo-matched',
+            'Foo'     => 'foo-matched',
             'Foo\Bar' => 'foo-bar-matched',
         ]);
         $template = $this->listener->mapController('Foo\BarBaz\Controller\IndexController');
@@ -242,7 +246,7 @@ class InjectTemplateListenerTest extends TestCase
     public function testUsingNamespaceRouteParameterGivesSameResultAsFullControllerParameter()
     {
         $this->routeMatch->setParam('controller', 'MappedNs\Foo\Controller\Bar\Baz\Sample');
-        $myViewModel  = new ViewModel();
+        $myViewModel = new ViewModel();
 
         $this->event->setResult($myViewModel);
         $this->listener->injectTemplate($this->event);
@@ -252,10 +256,10 @@ class InjectTemplateListenerTest extends TestCase
         $this->routeMatch->setParam(ModuleRouteListener::MODULE_NAMESPACE, 'MappedNs\Foo\Controller\Bar');
         $this->routeMatch->setParam('controller', 'Baz\Sample');
 
-        $moduleRouteListener = new ModuleRouteListener;
+        $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->onRoute($this->event);
 
-        $myViewModel  = new ViewModel();
+        $myViewModel = new ViewModel();
 
         $this->event->setResult($myViewModel);
         $this->listener->injectTemplate($this->event);
@@ -266,7 +270,7 @@ class InjectTemplateListenerTest extends TestCase
     public function testControllerMapOnlyFullNamespaceMatches()
     {
         $this->listener->setControllerMap([
-            'Foo' => 'foo-matched',
+            'Foo'     => 'foo-matched',
             'Foo\Bar' => 'foo-bar-matched',
         ]);
         $template = $this->listener->mapController('Foo\BarBaz\Controller\IndexController');
@@ -276,7 +280,7 @@ class InjectTemplateListenerTest extends TestCase
     public function testControllerMapRuleSetToFalseIsIgnored()
     {
         $this->listener->setControllerMap([
-            'Foo' => 'foo-matched',
+            'Foo'     => 'foo-matched',
             'Foo\Bar' => false,
         ]);
         $template = $this->listener->mapController('Foo\Bar\Controller\IndexController');
@@ -343,7 +347,7 @@ class InjectTemplateListenerTest extends TestCase
     {
         $this->assertFalse($this->listener->isPreferRouteMatchController());
         $controllerMap = [
-            'Some\Other\Service\Namespace\Controller\Sample' => 'another/sample'
+            'Some\Other\Service\Namespace\Controller\Sample' => 'another/sample',
         ];
 
         $this->routeMatch->setParam('prefer_route_match_controller', true);

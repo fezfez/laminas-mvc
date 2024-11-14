@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Mvc\Service;
 
-use Interop\Container\ContainerInterface;
+use interop\container\containerinterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Laminas\View\Strategy\JsonStrategy;
 
@@ -16,15 +18,13 @@ class ViewJsonStrategyFactory implements FactoryInterface
      *
      * It then attaches the strategy to the View service, at a priority of 100.
      *
-     * @param  ContainerInterface $container
      * @param  string $name
      * @param  null|array $options
      * @return JsonStrategy
      */
-    public function __invoke(ContainerInterface $container, $name, ?array $options = null)
+    public function __invoke(containerinterface $container, $name, ?array $options = null)
     {
         $jsonRenderer = $container->get('ViewJsonRenderer');
-        $jsonStrategy = new JsonStrategy($jsonRenderer);
-        return $jsonStrategy;
+        return new JsonStrategy($jsonRenderer);
     }
 }

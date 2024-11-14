@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Mvc\Service;
 
-use Interop\Container\ContainerInterface;
+use interop\container\containerinterface;
 use Laminas\Mvc\View\Http\RouteNotFoundStrategy;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
@@ -11,12 +13,11 @@ class HttpRouteNotFoundStrategyFactory implements FactoryInterface
     use HttpViewManagerConfigTrait;
 
     /**
-     * @param  ContainerInterface $container
      * @param  string $name
      * @param  null|array $options
      * @return RouteNotFoundStrategy
      */
-    public function __invoke(ContainerInterface $container, $name, ?array $options = null)
+    public function __invoke(containerinterface $container, $name, ?array $options = null)
     {
         $strategy = new RouteNotFoundStrategy();
         $config   = $this->getConfig($container);

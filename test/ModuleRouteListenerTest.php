@@ -1,14 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mvc;
 
-use Laminas\Router\Http\TreeRouteStack;
 use Laminas\EventManager\EventManager;
 use Laminas\Http\PhpEnvironment\Request;
 use Laminas\Mvc\ModuleRouteListener;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Mvc\RouteListener;
-use Laminas\Router;
+use Laminas\Router\Http\TreeRouteStack;
 use Laminas\Router\RouteMatch;
 use PHPUnit\Framework\TestCase;
 
@@ -35,12 +36,12 @@ class ModuleRouteListenerTest extends TestCase
     public function testRouteReturningModuleNamespaceInRouteMatchTriggersControllerRename()
     {
         $this->router->addRoute('foo', [
-            'type' => 'Literal',
+            'type'    => 'Literal',
             'options' => [
                 'route'    => '/foo',
                 'defaults' => [
                     ModuleRouteListener::MODULE_NAMESPACE => 'Foo',
-                    'controller' => 'Index',
+                    'controller'                          => 'Index',
                 ],
             ],
         ]);
@@ -60,7 +61,7 @@ class ModuleRouteListenerTest extends TestCase
     public function testRouteNotReturningModuleNamespaceInRouteMatchLeavesControllerUntouched()
     {
         $this->router->addRoute('foo', [
-            'type' => 'Literal',
+            'type'    => 'Literal',
             'options' => [
                 'route'    => '/foo',
                 'defaults' => [
@@ -86,12 +87,12 @@ class ModuleRouteListenerTest extends TestCase
         $moduleListener->attach($this->events);
 
         $this->router->addRoute('foo', [
-            'type' => 'Literal',
+            'type'    => 'Literal',
             'options' => [
                 'route'    => '/foo',
                 'defaults' => [
                     ModuleRouteListener::MODULE_NAMESPACE => 'Foo',
-                    'controller' => 'Index',
+                    'controller'                          => 'Index',
                 ],
             ],
         ]);
@@ -114,12 +115,12 @@ class ModuleRouteListenerTest extends TestCase
         $moduleListener->attach($this->events);
 
         $this->router->addRoute('foo', [
-            'type' => 'Literal',
+            'type'    => 'Literal',
             'options' => [
                 'route'    => '/foo',
                 'defaults' => [
                     ModuleRouteListener::MODULE_NAMESPACE => 'Foo',
-                    'controller' => 'some-index',
+                    'controller'                          => 'some-index',
                 ],
             ],
         ]);

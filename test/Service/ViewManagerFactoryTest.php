@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mvc\Service;
 
-use Interop\Container\ContainerInterface;
+use interop\container\containerinterface;
 use Laminas\Mvc\Service\ViewManagerFactory;
 use Laminas\Mvc\View\Http\ViewManager as HttpViewManager;
 use PHPUnit\Framework\TestCase;
@@ -11,8 +13,8 @@ class ViewManagerFactoryTest extends TestCase
 {
     private function createContainer()
     {
-        $http = $this->createMock(HttpViewManager::class);
-        $container = $this->createMock(ContainerInterface::class);
+        $http      = $this->createMock(HttpViewManager::class);
+        $container = $this->createMock(containerinterface::class);
         $container->method('get')->with('HttpViewManager')->willReturn($http);
         return $container;
     }

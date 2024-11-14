@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laminas\Mvc\Service;
 
-use Interop\Container\ContainerInterface;
+use interop\container\containerinterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Laminas\View\Strategy\PhpRendererStrategy;
 use Laminas\View\View;
@@ -10,12 +12,11 @@ use Laminas\View\View;
 class ViewFactory implements FactoryInterface
 {
     /**
-     * @param  ContainerInterface $container
      * @param  string $name
      * @param  null|array $options
      * @return View
      */
-    public function __invoke(ContainerInterface $container, $name, ?array $options = null)
+    public function __invoke(containerinterface $container, $name, ?array $options = null)
     {
         $view   = new View();
         $events = $container->get('EventManager');

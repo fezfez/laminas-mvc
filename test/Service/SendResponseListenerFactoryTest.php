@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LaminasTest\Mvc\Service;
 
-use Interop\Container\ContainerInterface;
+use interop\container\containerinterface;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\EventManager\SharedEventManagerInterface;
 use Laminas\Mvc\ResponseSender\HttpResponseSender;
@@ -12,15 +14,14 @@ use Laminas\Mvc\ResponseSender\SimpleStreamResponseSender;
 use Laminas\Mvc\SendResponseListener;
 use Laminas\Mvc\Service\SendResponseListenerFactory;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
-use Prophecy\PhpUnit\ProphecyTrait;
+use RuntimeException;
 
 class SendResponseListenerFactoryTest extends TestCase
 {
     public function testFactoryReturnsListenerWithEventManagerFromContainer()
     {
         $sharedEvents = $this->createMock(SharedEventManagerInterface::class);
-        $events = $this->createMock(EventManagerInterface::class);
+        $events       = $this->createMock(EventManagerInterface::class);
         $events->method('getSharedManager')->willReturn($sharedEvents);
 
         $events->expects($this->once())
@@ -52,13 +53,13 @@ class SendResponseListenerFactoryTest extends TestCase
                     return;
                 }
 
-                throw new \RuntimeException('Unexpected numberOfInvocations' . $invokedCount->numberOfInvocations());
+                throw new RuntimeException('Unexpected numberOfInvocations' . $invokedCount->numberOfInvocations());
             });
 
-        $container = $this->createMock(ContainerInterface::class);
+        $container = $this->createMock(containerinterface::class);
         $container->method('get')->with('EventManager')->willReturn($events);
 
-        $factory = new SendResponseListenerFactory();
+        $factory  = new SendResponseListenerFactory();
         $listener = $factory($container);
         $this->assertInstanceOf(SendResponseListener::class, $listener);
         $this->assertSame($events, $listener->getEventManager());
