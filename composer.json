@@ -32,11 +32,11 @@
         "container-interop/container-interop": "^1.2",
         "laminas/laminas-eventmanager": "^3.4",
         "laminas/laminas-http": "^2.15",
-        "laminas/laminas-modulemanager": "^2.8",
+        "laminas/laminas-modulemanager": "^2.16",
         "laminas/laminas-router": "^3.11.1",
         "laminas/laminas-servicemanager": "^3.20.0",
-        "laminas/laminas-stdlib": "^3.6",
-        "laminas/laminas-view": "^2.14"
+        "laminas/laminas-stdlib": "^3.19",
+        "laminas/laminas-view": "^2.18.0"
     },
     "require-dev": {
         "laminas/laminas-coding-standard": "^2.5.0",
