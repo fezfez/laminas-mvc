@@ -9,9 +9,9 @@ use Laminas\EventManager\EventManagerInterface;
 
 class EventManagerAwareObject implements EventManagerAwareInterface
 {
-    public static $defaultEvents;
+    public static EventManagerInterface|null $defaultEvents = null;
 
-    protected $events;
+    protected EventManagerInterface|null $events = null;
 
     public function setEventManager(EventManagerInterface $events)
     {

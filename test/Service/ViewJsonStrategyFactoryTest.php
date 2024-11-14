@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class ViewJsonStrategyFactoryTest extends TestCase
 {
-    private function createContainer()
+    private function createContainer(): containerinterface
     {
         $renderer  = $this->createMock(JsonRenderer::class);
         $container = $this->createMock(containerinterface::class);

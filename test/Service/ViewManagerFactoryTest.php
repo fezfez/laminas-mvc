@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class ViewManagerFactoryTest extends TestCase
 {
-    private function createContainer()
+    private function createContainer(): containerinterface
     {
         $http      = $this->createMock(HttpViewManager::class);
         $container = $this->createMock(containerinterface::class);

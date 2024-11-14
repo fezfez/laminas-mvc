@@ -58,7 +58,7 @@ class ViewHelperManagerFactoryTest extends TestCase
         $this->assertInstanceof(Doctype::class, $doctype);
     }
 
-    public static function urlHelperNames()
+    public static function urlHelperNames(): array
     {
         return [
             ['url'],
@@ -72,7 +72,7 @@ class ViewHelperManagerFactoryTest extends TestCase
      * @group 71
      * @dataProvider urlHelperNames
      */
-    public function testUrlHelperFactoryCanBeInvokedViaShortNameOrFullClassName($name)
+    public function testUrlHelperFactoryCanBeInvokedViaShortNameOrFullClassName(string $name): void
     {
         $this->markTestSkipped(sprintf(
             '%s::%s skipped until laminas-view and the url() view helper are updated to use laminas-router',
@@ -101,7 +101,7 @@ class ViewHelperManagerFactoryTest extends TestCase
         $this->assertAttributeSame($router, 'router', $helper, 'Router was not injected');
     }
 
-    public static function basePathConfiguration()
+    public static function basePathConfiguration(): iterable
     {
         $names = ['basepath', 'basePath', 'BasePath', BasePath::class, 'laminasviewhelperbasepath'];
 
@@ -142,8 +142,11 @@ class ViewHelperManagerFactoryTest extends TestCase
      * @group 71
      * @dataProvider basePathConfiguration
      */
-    public function testBasePathHelperFactoryCanBeInvokedViaShortNameOrFullClassName($name, array $services, $expected)
-    {
+    public function testBasePathHelperFactoryCanBeInvokedViaShortNameOrFullClassName(
+        string $name,
+        array $services,
+        string $expected
+    ): void {
         foreach ($services as $key => $value) {
             if (is_callable($value)) {
                 $this->services->setFactory($key, $value);
@@ -159,7 +162,7 @@ class ViewHelperManagerFactoryTest extends TestCase
         $this->assertEquals($expected, $helper());
     }
 
-    public static function doctypeHelperNames()
+    public static function doctypeHelperNames(): array
     {
         return [
             ['doctype'],
@@ -173,7 +176,7 @@ class ViewHelperManagerFactoryTest extends TestCase
      * @group 71
      * @dataProvider doctypeHelperNames
      */
-    public function testDoctypeHelperFactoryCanBeInvokedViaShortNameOrFullClassName($name)
+    public function testDoctypeHelperFactoryCanBeInvokedViaShortNameOrFullClassName(string $name): void
     {
         $this->services->setService('config', [
             'view_manager' => [

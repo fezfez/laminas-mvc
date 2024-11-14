@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class ViewFeedStrategyFactoryTest extends TestCase
 {
-    private function createContainer()
+    private function createContainer(): containerinterface
     {
         $renderer  = $this->createMock(FeedRenderer::class);
         $container = $this->createMock(containerinterface::class);
