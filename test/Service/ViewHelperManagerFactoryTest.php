@@ -95,7 +95,7 @@ class ViewHelperManagerFactoryTest extends TestCase
         $this->assertAttributeSame($router, 'router', $helper, 'Router was not injected');
     }
 
-    public function basePathConfiguration()
+    public static function basePathConfiguration()
     {
         $names = ['basepath', 'basePath', 'BasePath', BasePath::class, 'laminasviewhelperbasepath'];
 
@@ -111,8 +111,8 @@ class ViewHelperManagerFactoryTest extends TestCase
             'request-base' => [[
                 'config' => [], // fails creating plugin manager without this
                 'Request' => function (): object {
-                    $request = $this->createMock(Request::class);
-                    $request->method('getBasePath')->willReturn('/foo/bat');
+                    $request = new Request();
+                    $request->setBasePath('/foo/bat');
                     return $request;
                 },
             ], '/foo/bat'],

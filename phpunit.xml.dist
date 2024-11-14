@@ -6,7 +6,12 @@
          cacheDirectory=".phpunit.cache"
          failOnDeprecation="true"
          failOnNotice="true"
-         failOnWarning="true">
+         failOnWarning="true"
+         failOnPhpunitDeprecation="true"
+         displayDetailsOnPhpunitDeprecations="true"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
+         displayDetailsOnTestsThatTriggerNotices="true"
+         displayDetailsOnTestsThatTriggerWarnings="true">
   <testsuites>
     <testsuite name="laminas-mvc Test Suite">
       <directory>./test/</directory>
