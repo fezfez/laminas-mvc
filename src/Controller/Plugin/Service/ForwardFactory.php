@@ -1,4 +1,4 @@
- <?php
+<?php
 
 namespace Laminas\Mvc\Controller\Plugin\Service;
 
