@@ -1,11 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Laminas\Mvc;
 
 use Exception;
-use interop\container\containerinterface;
+// phpcs:ignore
+use Interop\Container\ContainerInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Laminas\EventManager\AbstractListenerAggregate;
 use Laminas\EventManager\EventManagerInterface;
@@ -132,7 +131,7 @@ class MiddlewareListener extends AbstractListenerAggregate
      * @throws InvalidMiddlewareException
      */
     private function createPipeFromSpec(
-        containerinterface $serviceLocator,
+        ContainerInterface $serviceLocator,
         ResponseInterface $responsePrototype,
         array $middlewaresToBePiped
     ) {

@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace LaminasTest\Mvc\TestAsset;
 
-use interop\container\containerinterface;
+// phpcs:ignore
+use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\AbstractFactoryInterface;
 
 use function class_exists;
@@ -16,7 +17,7 @@ class MiddlewareAbstractFactory implements AbstractFactoryInterface
     ];
 
     /** @inheritDoc */
-    public function canCreate(containerinterface $container, $requestedName)
+    public function canCreate(ContainerInterface $container, $requestedName)
     {
         if (! isset($this->classmap[$name])) {
             return false;
@@ -27,7 +28,7 @@ class MiddlewareAbstractFactory implements AbstractFactoryInterface
     }
 
     /** @inheritDoc */
-    public function __invoke(containerinterface $container, $requestedName, ?array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         $classname = $this->classmap[$name];
         return new $classname();

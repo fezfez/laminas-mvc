@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Laminas\Mvc\Service;
 
-use interop\container\containerinterface;
+// phpcs:ignore
+use Interop\Container\ContainerInterface;
 use Laminas\Router\RouteMatch;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\View\Helper as ViewHelper;
@@ -37,7 +36,7 @@ class ViewHelperManagerFactory extends AbstractPluginManagerFactory
      * @return HelperPluginManager
      * @throws ServiceNotCreatedException
      */
-    public function __invoke(containerinterface $container, $requestedName, ?array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         $options                = $options ?: [];
         $options['factories'] ??= [];
@@ -54,7 +53,7 @@ class ViewHelperManagerFactory extends AbstractPluginManagerFactory
      *
      * @return HelperPluginManager
      */
-    private function injectOverrideFactories(HelperPluginManager $plugins, containerinterface $services)
+    private function injectOverrideFactories(HelperPluginManager $plugins, ContainerInterface $services)
     {
         // Configure URL view helper
         $urlFactory = $this->createUrlHelperFactory($services);
@@ -83,7 +82,7 @@ class ViewHelperManagerFactory extends AbstractPluginManagerFactory
      *
      * @return callable
      */
-    private function createUrlHelperFactory(containerinterface $services)
+    private function createUrlHelperFactory(ContainerInterface $services)
     {
         return static function () use ($services): Url {
             $helper = new ViewHelper\Url();
@@ -105,7 +104,7 @@ class ViewHelperManagerFactory extends AbstractPluginManagerFactory
      *
      * @return callable
      */
-    private function createBasePathHelperFactory(containerinterface $services)
+    private function createBasePathHelperFactory(ContainerInterface $services)
     {
         return static function () use ($services): BasePath {
             $config = $services->has('config') ? $services->get('config') : [];
@@ -130,7 +129,7 @@ class ViewHelperManagerFactory extends AbstractPluginManagerFactory
      *
      * @return callable
      */
-    private function createDoctypeHelperFactory(containerinterface $services)
+    private function createDoctypeHelperFactory(ContainerInterface $services)
     {
         return static function () use ($services): Doctype {
             $config = $services->has('config') ? $services->get('config') : [];

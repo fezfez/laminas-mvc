@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Laminas\Mvc\View\Http;
 
 use Laminas\EventManager\AbstractListenerAggregate;
@@ -121,7 +119,7 @@ class InjectTemplateListener extends AbstractListenerAggregate
             if (
                 // Allow disabling rule by setting value to false since config
                 // merging have no feature to remove entries
-                ! $replacement
+                $replacement === false
                 // Match full class or full namespace
                 || ! ($controller === $namespace || str_starts_with($controller, $namespace . '\\'))
             ) {

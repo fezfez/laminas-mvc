@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Laminas\Mvc\Service;
 
-use interop\container\containerinterface;
+// phpcs:ignore
+use Interop\Container\ContainerInterface;
 use Laminas\Mvc\View\Http\DefaultRenderingStrategy;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Laminas\View\View;
@@ -18,7 +17,7 @@ class HttpDefaultRenderingStrategyFactory implements FactoryInterface
      * @param  null|array $options
      * @return DefaultRenderingStrategy
      */
-    public function __invoke(containerinterface $container, $name, ?array $options = null)
+    public function __invoke(ContainerInterface $container, $name, ?array $options = null)
     {
         $strategy = new DefaultRenderingStrategy($container->get(View::class));
         $config   = $this->getConfig($container);

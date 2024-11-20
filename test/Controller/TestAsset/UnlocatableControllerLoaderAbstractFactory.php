@@ -4,19 +4,20 @@ declare(strict_types=1);
 
 namespace LaminasTest\Mvc\Controller\TestAsset;
 
-use interop\container\containerinterface;
+// phpcs:ignore
+use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\AbstractFactoryInterface;
 
 class UnlocatableControllerLoaderAbstractFactory implements AbstractFactoryInterface
 {
     /** @inheritDoc */
-    public function canCreate(containerinterface $container, $requestedName)
+    public function canCreate(ContainerInterface $container, $requestedName)
     {
         return false;
     }
 
     /** @inheritDoc */
-    public function __invoke(containerinterface $container, $requestedName, ?array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
     }
 }

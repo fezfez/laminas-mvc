@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Laminas\Mvc\Service;
 
-use interop\container\containerinterface;
+// phpcs:ignore
+use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\AbstractPluginManager;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
@@ -22,7 +21,7 @@ abstract class AbstractPluginManagerFactory implements FactoryInterface
      * @param  null|array $options
      * @return AbstractPluginManager
      */
-    public function __invoke(containerinterface $container, $name, ?array $options = null)
+    public function __invoke(ContainerInterface $container, $name, ?array $options = null)
     {
         $options            = $options ?: [];
         $pluginManagerClass = static::PLUGIN_MANAGER_CLASS;

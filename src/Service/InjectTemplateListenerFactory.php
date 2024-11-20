@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Laminas\Mvc\Service;
 
-use interop\container\containerinterface;
+// phpcs:ignore
+use Interop\Container\ContainerInterface;
 use Laminas\Mvc\View\Http\InjectTemplateListener;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
@@ -19,7 +18,7 @@ class InjectTemplateListenerFactory implements FactoryInterface
      *
      * @return InjectTemplateListener
      */
-    public function __invoke(containerinterface $container, $name, ?array $options = null)
+    public function __invoke(ContainerInterface $container, $name, ?array $options = null)
     {
         $listener = new InjectTemplateListener();
         $config   = $container->get('config');

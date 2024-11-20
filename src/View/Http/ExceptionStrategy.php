@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Laminas\Mvc\View\Http;
 
 use Laminas\EventManager\AbstractListenerAggregate;

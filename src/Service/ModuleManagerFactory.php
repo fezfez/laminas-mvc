@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Laminas\Mvc\Service;
 
-use interop\container\containerinterface;
+// phpcs:ignore
+use Interop\Container\ContainerInterface;
 use Laminas\ModuleManager\Feature\ControllerPluginProviderInterface;
 use Laminas\ModuleManager\Feature\ControllerProviderInterface;
 use Laminas\ModuleManager\Feature\RouteProviderInterface;
@@ -33,7 +32,7 @@ class ModuleManagerFactory implements FactoryInterface
      * @param  null|array $options
      * @return ModuleManager
      */
-    public function __invoke(containerinterface $container, $name, ?array $options = null)
+    public function __invoke(ContainerInterface $container, $name, ?array $options = null)
     {
         $configuration    = $container->get('ApplicationConfig');
         $listenerOptions  = new ListenerOptions($configuration['module_listener_options']);

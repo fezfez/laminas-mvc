@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Laminas\Mvc\Service;
 
-use interop\container\containerinterface;
+// phpcs:ignore
+use Interop\Container\ContainerInterface;
 use Laminas\ModuleManager\Listener\ServiceListener;
 use Laminas\ModuleManager\Listener\ServiceListenerInterface;
 use Laminas\Mvc\Controller\ControllerManager;
@@ -119,15 +118,16 @@ class ServiceListenerFactory implements FactoryInterface
             'ViewResolver'                  => ViewResolverFactory::class,
             'ViewTemplateMapResolver'       => ViewTemplateMapResolverFactory::class,
             'ViewTemplatePathStack'         => ViewTemplatePathStackFactory::class,
-            'ViewPrefixPathStackResolver'   => ViewPrefixPathStackResolverFactory::class,
-            MiddlewareListener::class       => InvokableFactory::class,
-            RouteListener::class            => InvokableFactory::class,
-            SendResponseListener::class     => SendResponseListenerFactory::class,
-            FeedRenderer::class             => InvokableFactory::class,
-            JsonRenderer::class             => InvokableFactory::class,
-            PhpRenderer::class              => ViewPhpRendererFactory::class,
-            PhpRendererStrategy::class      => ViewPhpRendererStrategyFactory::class,
-            View::class                     => ViewFactory::class,
+            'ViewPrefixPathStackResolver'
+            => ViewPrefixPathStackResolverFactory::class,
+            MiddlewareListener::class   => InvokableFactory::class,
+            RouteListener::class        => InvokableFactory::class,
+            SendResponseListener::class => SendResponseListenerFactory::class,
+            FeedRenderer::class         => InvokableFactory::class,
+            JsonRenderer::class         => InvokableFactory::class,
+            PhpRenderer::class          => ViewPhpRendererFactory::class,
+            PhpRendererStrategy::class  => ViewPhpRendererStrategyFactory::class,
+            View::class                 => ViewFactory::class,
         ],
     ];
 
@@ -155,7 +155,7 @@ class ServiceListenerFactory implements FactoryInterface
      * @throws ServiceNotCreatedException For invalid ServiceListener service.
      * @throws ServiceNotCreatedException For invalid configurations.
      */
-    public function __invoke(containerinterface $container, $requestedName, ?array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         $configuration = $container->get('ApplicationConfig');
 

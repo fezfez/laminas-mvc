@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Laminas\Mvc\Service;
 
-use interop\container\containerinterface;
+// phpcs:ignore
+use Interop\Container\ContainerInterface;
 use Laminas\Mvc\View\Http\RouteNotFoundStrategy;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
@@ -17,7 +16,7 @@ class HttpRouteNotFoundStrategyFactory implements FactoryInterface
      * @param  null|array $options
      * @return RouteNotFoundStrategy
      */
-    public function __invoke(containerinterface $container, $name, ?array $options = null)
+    public function __invoke(ContainerInterface $container, $name, ?array $options = null)
     {
         $strategy = new RouteNotFoundStrategy();
         $config   = $this->getConfig($container);

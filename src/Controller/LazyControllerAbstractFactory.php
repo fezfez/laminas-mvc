@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Laminas\Mvc\Controller;
 
-use interop\container\containerinterface;
+// phpcs:ignore
+use Interop\Container\ContainerInterface;
 use Laminas\Console\Adapter\AdapterInterface as ConsoleAdapterInterface;
 use Laminas\Filter\FilterPluginManager;
 use Laminas\Hydrator\HydratorPluginManager;
@@ -105,7 +104,7 @@ class LazyControllerAbstractFactory implements AbstractFactoryInterface
      *
      * @return DispatchableInterface
      */
-    public function __invoke(containerinterface $container, $requestedName, ?array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         $reflectionClass = new ReflectionClass($requestedName);
 
@@ -130,7 +129,7 @@ class LazyControllerAbstractFactory implements AbstractFactoryInterface
     /**
      * {@inheritDoc}
      */
-    public function canCreate(containerinterface $container, $requestedName)
+    public function canCreate(ContainerInterface $container, $requestedName)
     {
         if (! class_exists($requestedName)) {
             return false;
@@ -147,7 +146,7 @@ class LazyControllerAbstractFactory implements AbstractFactoryInterface
      * @param string $requestedName
      * @return callable
      */
-    private function resolveParameter(containerinterface $container, $requestedName)
+    private function resolveParameter(ContainerInterface $container, $requestedName)
     {
         /**
          * @param ReflectionParameter $parameter

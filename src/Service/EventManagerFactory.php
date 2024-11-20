@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Laminas\Mvc\Service;
 
-use interop\container\containerinterface;
+// phpcs:ignore
+use Interop\Container\ContainerInterface;
 use Laminas\EventManager\EventManager;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
@@ -20,7 +19,7 @@ class EventManagerFactory implements FactoryInterface
      * @param  null|array $options
      * @return EventManager
      */
-    public function __invoke(containerinterface $container, $name, ?array $options = null)
+    public function __invoke(ContainerInterface $container, $name, ?array $options = null)
     {
         $shared = $container->has('SharedEventManager') ? $container->get('SharedEventManager') : null;
 

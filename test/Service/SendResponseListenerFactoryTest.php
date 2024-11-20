@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace LaminasTest\Mvc\Service;
 
-use interop\container\containerinterface;
+// phpcs:ignore
+use Interop\Container\ContainerInterface;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\EventManager\SharedEventManagerInterface;
 use Laminas\Mvc\ResponseSender\HttpResponseSender;
@@ -56,7 +57,7 @@ class SendResponseListenerFactoryTest extends TestCase
                 throw new RuntimeException('Unexpected numberOfInvocations' . $invokedCount->numberOfInvocations());
             });
 
-        $container = $this->createMock(containerinterface::class);
+        $container = $this->createMock(ContainerInterface::class);
         $container->method('get')->with('EventManager')->willReturn($events);
 
         $factory  = new SendResponseListenerFactory();

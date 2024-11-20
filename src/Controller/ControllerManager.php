@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Laminas\Mvc\Controller;
 
-use interop\container\containerinterface;
+// phpcs:ignore
+use Interop\Container\ContainerInterface;
 use Laminas\EventManager\EventManagerAwareInterface;
 use Laminas\EventManager\SharedEventManagerInterface;
 use Laminas\ServiceManager\AbstractPluginManager;
@@ -43,7 +42,7 @@ class ControllerManager extends AbstractPluginManager
      * Injects an initializer for injecting controllers with an
      * event manager and plugin manager.
      *
-     * @param  ConfigInterface|containerinterface $configOrContainerInstance
+     * @param  ConfigInterface|ContainerInterface $configOrContainerInstance
      */
     public function __construct($configOrContainerInstance, array $config = [])
     {
@@ -80,7 +79,7 @@ class ControllerManager extends AbstractPluginManager
      *
      * @param DispatchableInterface $controller
      */
-    public function injectEventManager(containerinterface $container, $controller)
+    public function injectEventManager(ContainerInterface $container, $controller)
     {
         if (! $controller instanceof EventManagerAwareInterface) {
             return;
@@ -97,7 +96,7 @@ class ControllerManager extends AbstractPluginManager
      *
      * @param DispatchableInterface $controller
      */
-    public function injectPluginManager(containerinterface $container, $controller)
+    public function injectPluginManager(ContainerInterface $container, $controller)
     {
         if (! method_exists($controller, 'setPluginManager')) {
             return;

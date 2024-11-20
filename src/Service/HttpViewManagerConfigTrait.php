@@ -1,11 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Laminas\Mvc\Service;
 
 use ArrayAccess;
-use interop\container\containerinterface;
+// phpcs:ignore
+use Interop\Container\ContainerInterface;
 
 use function is_array;
 
@@ -16,7 +15,7 @@ trait HttpViewManagerConfigTrait
      *
      * @return array
      */
-    private function getConfig(containerinterface $container)
+    private function getConfig(ContainerInterface $container)
     {
         $config = $container->has('config') ? $container->get('config') : [];
 

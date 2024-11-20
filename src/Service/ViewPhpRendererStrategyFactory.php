@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Laminas\Mvc\Service;
 
-use interop\container\containerinterface;
+// phpcs:ignore
+use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Laminas\View\Renderer\PhpRenderer;
 use Laminas\View\Strategy\PhpRendererStrategy;
@@ -16,7 +15,7 @@ class ViewPhpRendererStrategyFactory implements FactoryInterface
      * @param  null|array $options
      * @return PhpRendererStrategy
      */
-    public function __invoke(containerinterface $container, $name, ?array $options = null)
+    public function __invoke(ContainerInterface $container, $name, ?array $options = null)
     {
         return new PhpRendererStrategy($container->get(PhpRenderer::class));
     }

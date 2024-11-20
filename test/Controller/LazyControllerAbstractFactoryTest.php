@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace LaminasTest\Mvc\Controller;
 
-use interop\container\containerinterface;
+// phpcs:ignore
+use Interop\Container\ContainerInterface;
 use Laminas\Mvc\Controller\LazyControllerAbstractFactory;
 use Laminas\Mvc\Exception\DomainException;
 use Laminas\ServiceManager\Exception\ServiceNotFoundException;
@@ -28,7 +29,7 @@ class LazyControllerAbstractFactoryTest extends TestCase
 
     public function setUp(): void
     {
-        $this->container = $this->createMock(containerinterface::class);
+        $this->container = $this->createMock(ContainerInterface::class);
     }
 
     public static function nonClassRequestedNames(): array

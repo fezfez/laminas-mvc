@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace LaminasTest\Mvc\Service;
 
-use interop\container\containerinterface;
+// phpcs:ignore
+use Interop\Container\ContainerInterface;
 use Laminas\Mvc\Service\ViewFeedStrategyFactory;
 use Laminas\View\Renderer\FeedRenderer;
 use Laminas\View\Strategy\FeedStrategy;
@@ -12,10 +13,10 @@ use PHPUnit\Framework\TestCase;
 
 class ViewFeedStrategyFactoryTest extends TestCase
 {
-    private function createContainer(): containerinterface
+    private function createContainer(): ContainerInterface
     {
         $renderer  = $this->createMock(FeedRenderer::class);
-        $container = $this->createMock(containerinterface::class);
+        $container = $this->createMock(ContainerInterface::class);
         $container->method('get')->with('ViewFeedRenderer')->willReturn($renderer);
         return $container;
     }

@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Laminas\Mvc\Service;
 
-use interop\container\containerinterface;
+// phpcs:ignore
+use Interop\Container\ContainerInterface;
 use Laminas\Mvc\View\Http\ViewManager as HttpViewManager;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
@@ -17,7 +16,7 @@ class HttpViewManagerFactory implements FactoryInterface
      * @param  null|array $options
      * @return HttpViewManager
      */
-    public function __invoke(containerinterface $container, $name, ?array $options = null)
+    public function __invoke(ContainerInterface $container, $name, ?array $options = null)
     {
         return new HttpViewManager();
     }
