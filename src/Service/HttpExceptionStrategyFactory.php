@@ -12,7 +12,7 @@ class HttpExceptionStrategyFactory implements FactoryInterface
     use HttpViewManagerConfigTrait;
 
     /**
-     * @param  string $name
+     * @param  string $requestedName
      * @param  null|array $options
      * @return ExceptionStrategy
      */
