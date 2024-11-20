@@ -19,11 +19,11 @@ class ControllerManagerFactory implements FactoryInterface
      * Finally, it will attempt to inject the controller plugin manager
      * if the controller implements a setPluginManager() method.
      *
-     * @param  string $name
+     * @param  string $requestedName
      * @param  null|array $options
      * @return ControllerManager
      */
-    public function __invoke(ContainerInterface $container, $name, ?array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         if ($options) {
             return new ControllerManager($container, $options);

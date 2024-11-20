@@ -13,11 +13,11 @@ class HttpDefaultRenderingStrategyFactory implements FactoryInterface
     use HttpViewManagerConfigTrait;
 
     /**
-     * @param  string $name
+     * @param  string $requestedName
      * @param  null|array $options
      * @return DefaultRenderingStrategy
      */
-    public function __invoke(ContainerInterface $container, $name, ?array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         $strategy = new DefaultRenderingStrategy($container->get(View::class));
         $config   = $this->getConfig($container);

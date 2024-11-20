@@ -17,11 +17,11 @@ class ViewFeedStrategyFactory implements FactoryInterface
      *
      * It then attaches the strategy to the View service, at a priority of 100.
      *
-     * @param  string $name
+     * @param  string $requestedName
      * @param  null|array $options
      * @return FeedStrategy
      */
-    public function __invoke(ContainerInterface $container, $name, ?array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         return new FeedStrategy($container->get('ViewFeedRenderer'));
     }

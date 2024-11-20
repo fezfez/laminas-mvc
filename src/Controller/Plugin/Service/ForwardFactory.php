@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 namespace Laminas\Mvc\Controller\Plugin\Service;
 
@@ -18,7 +18,7 @@ class ForwardFactory implements FactoryInterface
      * @return Forward
      * @throws ServiceNotCreatedException If Controllermanager service is not found in application service locator.
      */
-    public function __invoke(ContainerInterface $container, $name, ?array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         if (! $container->has('ControllerManager')) {
             throw new ServiceNotCreatedException(sprintf(

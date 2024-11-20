@@ -28,11 +28,11 @@ class ModuleManagerFactory implements FactoryInterface
      * the default listener aggregate is attached. The ModuleEvent is also created
      * and attached to the module manager.
      *
-     * @param  string $name
+     * @param  string $requestedName
      * @param  null|array $options
      * @return ModuleManager
      */
-    public function __invoke(ContainerInterface $container, $name, ?array $options = null)
+    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         $configuration    = $container->get('ApplicationConfig');
         $listenerOptions  = new ListenerOptions($configuration['module_listener_options']);
