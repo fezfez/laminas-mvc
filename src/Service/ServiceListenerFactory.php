@@ -6,44 +6,11 @@ namespace Laminas\Mvc\Service;
 use Interop\Container\ContainerInterface;
 use Laminas\ModuleManager\Listener\ServiceListener;
 use Laminas\ModuleManager\Listener\ServiceListenerInterface;
-use Laminas\Mvc\Controller\ControllerManager;
-use Laminas\Mvc\Controller\PluginManager;
-use Laminas\Mvc\MiddlewareListener;
-use Laminas\Mvc\RouteListener;
-use Laminas\Mvc\SendResponseListener;
-use Laminas\Mvc\Service\ConfigFactory;
-use Laminas\Mvc\Service\ControllerManagerFactory;
-use Laminas\Mvc\Service\ControllerPluginManagerFactory;
-use Laminas\Mvc\Service\DispatchListenerFactory;
-use Laminas\Mvc\Service\HttpMethodListenerFactory;
-use Laminas\Mvc\Service\HttpViewManagerFactory;
-use Laminas\Mvc\Service\InjectTemplateListenerFactory;
-use Laminas\Mvc\Service\PaginatorPluginManagerFactory;
-use Laminas\Mvc\Service\RequestFactory;
-use Laminas\Mvc\Service\ResponseFactory;
-use Laminas\Mvc\Service\ViewFeedStrategyFactory;
-use Laminas\Mvc\Service\ViewHelperManagerFactory;
-use Laminas\Mvc\Service\ViewJsonStrategyFactory;
-use Laminas\Mvc\Service\ViewManagerFactory;
-use Laminas\Mvc\Service\ViewPrefixPathStackResolverFactory;
-use Laminas\Mvc\Service\ViewResolverFactory;
-use Laminas\Mvc\Service\ViewTemplateMapResolverFactory;
-use Laminas\Mvc\Service\ViewTemplatePathStackFactory;
-use Laminas\Mvc\View\Http\DefaultRenderingStrategy;
-use Laminas\Mvc\View\Http\InjectTemplateListener;
+use Laminas\Mvc;
 use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Laminas\ServiceManager\Factory\InvokableFactory;
-use Laminas\View\Renderer\FeedRenderer;
-use Laminas\View\Renderer\JsonRenderer;
-use Laminas\View\Renderer\PhpRenderer;
-use Laminas\View\Renderer\RendererInterface;
-use Laminas\View\Resolver\AggregateResolver;
-use Laminas\View\Resolver\ResolverInterface;
-use Laminas\View\Resolver\TemplateMapResolver;
-use Laminas\View\Resolver\TemplatePathStack;
-use Laminas\View\Strategy\PhpRendererStrategy;
-use Laminas\View\View;
+use Laminas\View;
 
 use function get_debug_type;
 use function gettype;
@@ -53,14 +20,10 @@ use function sprintf;
 
 class ServiceListenerFactory implements FactoryInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     public const MISSING_KEY_ERROR = 'Invalid service listener options detected, %s array must contain %s key.';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     public const VALUE_TYPE_ERROR = 'Invalid service listener options detected, %s must be a string, %s given.';
 
     /**
@@ -70,64 +33,63 @@ class ServiceListenerFactory implements FactoryInterface
      */
     protected $defaultServiceConfig = [
         'aliases'    => [
-            'application'                  => 'Application',
-            'Config'                       => 'config',
-            'configuration'                => 'config',
-            'Configuration'                => 'config',
-            'HttpDefaultRenderingStrategy' => DefaultRenderingStrategy::class,
-            'MiddlewareListener'           => MiddlewareListener::class,
-            'request'                      => 'Request',
-            'response'                     => 'Response',
-            'RouteListener'                => RouteListener::class,
-            'SendResponseListener'         => SendResponseListener::class,
-            'View'                         => View::class,
-            'ViewFeedRenderer'             => FeedRenderer::class,
-            'ViewJsonRenderer'             => JsonRenderer::class,
-            'ViewPhpRendererStrategy'      => PhpRendererStrategy::class,
-            'ViewPhpRenderer'              => PhpRenderer::class,
-            'ViewRenderer'                 => PhpRenderer::class,
-            PluginManager::class           => 'ControllerPluginManager',
-            InjectTemplateListener::class  => 'InjectTemplateListener',
-            RendererInterface::class       => PhpRenderer::class,
-            TemplateMapResolver::class     => 'ViewTemplateMapResolver',
-            TemplatePathStack::class       => 'ViewTemplatePathStack',
-            AggregateResolver::class       => 'ViewResolver',
-            ResolverInterface::class       => 'ViewResolver',
-            ControllerManager::class       => 'ControllerManager',
+            'application'                               => 'Application',
+            'Config'                                    => 'config',
+            'configuration'                             => 'config',
+            'Configuration'                             => 'config',
+            'HttpDefaultRenderingStrategy'              => Mvc\View\Http\DefaultRenderingStrategy::class,
+            'MiddlewareListener'                        => Mvc\MiddlewareListener::class,
+            'request'                                   => 'Request',
+            'response'                                  => 'Response',
+            'RouteListener'                             => Mvc\RouteListener::class,
+            'SendResponseListener'                      => Mvc\SendResponseListener::class,
+            'View'                                      => View\View::class,
+            'ViewFeedRenderer'                          => View\Renderer\FeedRenderer::class,
+            'ViewJsonRenderer'                          => View\Renderer\JsonRenderer::class,
+            'ViewPhpRendererStrategy'                   => View\Strategy\PhpRendererStrategy::class,
+            'ViewPhpRenderer'                           => View\Renderer\PhpRenderer::class,
+            'ViewRenderer'                              => View\Renderer\PhpRenderer::class,
+            Mvc\Controller\PluginManager::class         => 'ControllerPluginManager',
+            Mvc\View\Http\InjectTemplateListener::class => 'InjectTemplateListener',
+            View\Renderer\RendererInterface::class      => View\Renderer\PhpRenderer::class,
+            View\Resolver\TemplateMapResolver::class    => 'ViewTemplateMapResolver',
+            View\Resolver\TemplatePathStack::class      => 'ViewTemplatePathStack',
+            View\Resolver\AggregateResolver::class      => 'ViewResolver',
+            View\Resolver\ResolverInterface::class      => 'ViewResolver',
+            Mvc\Controller\ControllerManager::class     => 'ControllerManager',
         ],
         'invokables' => [],
         'factories'  => [
-            'Application'                   => ApplicationFactory::class,
-            'config'                        => ConfigFactory::class,
-            'ControllerManager'             => ControllerManagerFactory::class,
-            'ControllerPluginManager'       => ControllerPluginManagerFactory::class,
-            'DispatchListener'              => DispatchListenerFactory::class,
-            'HttpExceptionStrategy'         => HttpExceptionStrategyFactory::class,
-            'HttpMethodListener'            => HttpMethodListenerFactory::class,
-            'HttpRouteNotFoundStrategy'     => HttpRouteNotFoundStrategyFactory::class,
-            'HttpViewManager'               => HttpViewManagerFactory::class,
-            'InjectTemplateListener'        => InjectTemplateListenerFactory::class,
-            'PaginatorPluginManager'        => PaginatorPluginManagerFactory::class,
-            'Request'                       => RequestFactory::class,
-            'Response'                      => ResponseFactory::class,
-            'ViewHelperManager'             => ViewHelperManagerFactory::class,
-            DefaultRenderingStrategy::class => HttpDefaultRenderingStrategyFactory::class,
-            'ViewFeedStrategy'              => ViewFeedStrategyFactory::class,
-            'ViewJsonStrategy'              => ViewJsonStrategyFactory::class,
-            'ViewManager'                   => ViewManagerFactory::class,
-            'ViewResolver'                  => ViewResolverFactory::class,
-            'ViewTemplateMapResolver'       => ViewTemplateMapResolverFactory::class,
-            'ViewTemplatePathStack'         => ViewTemplatePathStackFactory::class,
-            'ViewPrefixPathStackResolver'
-            => ViewPrefixPathStackResolverFactory::class,
-            MiddlewareListener::class   => InvokableFactory::class,
-            RouteListener::class        => InvokableFactory::class,
-            SendResponseListener::class => SendResponseListenerFactory::class,
-            FeedRenderer::class         => InvokableFactory::class,
-            JsonRenderer::class         => InvokableFactory::class,
-            PhpRenderer::class          => ViewPhpRendererFactory::class,
-            PhpRendererStrategy::class  => ViewPhpRendererStrategyFactory::class,
-            View::class                 => ViewFactory::class,
+            'Application'                                 => ApplicationFactory::class,
+            'config'                                      => Mvc\Service\ConfigFactory::class,
+            'ControllerManager'                           => Mvc\Service\ControllerManagerFactory::class,
+            'ControllerPluginManager'                     => Mvc\Service\ControllerPluginManagerFactory::class,
+            'DispatchListener'                            => Mvc\Service\DispatchListenerFactory::class,
+            'HttpExceptionStrategy'                       => HttpExceptionStrategyFactory::class,
+            'HttpMethodListener'                          => Mvc\Service\HttpMethodListenerFactory::class,
+            'HttpRouteNotFoundStrategy'                   => HttpRouteNotFoundStrategyFactory::class,
+            'HttpViewManager'                             => Mvc\Service\HttpViewManagerFactory::class,
+            'InjectTemplateListener'                      => Mvc\Service\InjectTemplateListenerFactory::class,
+            'PaginatorPluginManager'                      => Mvc\Service\PaginatorPluginManagerFactory::class,
+            'Request'                                     => Mvc\Service\RequestFactory::class,
+            'Response'                                    => Mvc\Service\ResponseFactory::class,
+            'ViewHelperManager'                           => Mvc\Service\ViewHelperManagerFactory::class,
+            Mvc\View\Http\DefaultRenderingStrategy::class => HttpDefaultRenderingStrategyFactory::class,
+            'ViewFeedStrategy'                            => Mvc\Service\ViewFeedStrategyFactory::class,
+            'ViewJsonStrategy'                            => Mvc\Service\ViewJsonStrategyFactory::class,
+            'ViewManager'                                 => Mvc\Service\ViewManagerFactory::class,
+            'ViewResolver'                                => Mvc\Service\ViewResolverFactory::class,
+            'ViewTemplateMapResolver'                     => Mvc\Service\ViewTemplateMapResolverFactory::class,
+            'ViewTemplatePathStack'                       => Mvc\Service\ViewTemplatePathStackFactory::class,
+            'ViewPrefixPathStackResolver'                 => Mvc\Service\ViewPrefixPathStackResolverFactory::class,
+            Mvc\MiddlewareListener::class                 => InvokableFactory::class,
+            Mvc\RouteListener::class                      => InvokableFactory::class,
+            Mvc\SendResponseListener::class               => SendResponseListenerFactory::class,
+            View\Renderer\FeedRenderer::class             => InvokableFactory::class,
+            View\Renderer\JsonRenderer::class             => InvokableFactory::class,
+            View\Renderer\PhpRenderer::class              => ViewPhpRendererFactory::class,
+            View\Strategy\PhpRendererStrategy::class      => ViewPhpRendererStrategyFactory::class,
+            View\View::class                              => ViewFactory::class,
         ],
     ];
 
