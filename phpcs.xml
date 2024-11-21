@@ -20,4 +20,7 @@
     <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
         <exclude-pattern>src/</exclude-pattern>
     </rule>
+    <rule ref="WebimpressCodingStandard.PHP.CorrectClassNameCase.Invalid">
+        <exclude-pattern>test/_autoload.php</exclude-pattern>
+    </rule>
 </ruleset>
